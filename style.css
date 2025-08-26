@@ -1,1 +1,105 @@
-/* Add styles here */
+body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+            .container {
+                max-width: 1000px;
+                margin: 0 auto;
+                background: #fff;
+                padding: 20px 30px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                color: #0056b3;
+                text-align: center;
+            }
+            .upload-area {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .upload-button {
+                padding: 10px 15px;
+                background-color: #007bff;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .upload-button:hover {
+                background-color: #0056b3;
+            }
+            #file-upload {
+                display: none;
+            }
+            #controls {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 20px;
+                padding: 15px;
+                background-color: #e9ecef;
+                border-radius: 8px;
+            }
+            #controls label, #controls select, #controls button {
+                font-size: 16px;
+            }
+            #controls select {
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            #controls button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            #sort-button {
+                background-color: #28a745;
+            }
+            #sort-button:hover {
+                background-color: #218838;
+            }
+            #group-button {
+                background-color: #ffc107;
+                color: #333;
+            }
+            #group-button:hover {
+                background-color: #e0a800;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            table, th, td {
+                border: 1px solid #ddd;
+            }
+            th, td {
+                padding: 12px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+                color: #444;
+            }
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            .data-group {
+                margin-bottom: 30px;
+                border-left: 5px solid #007bff;
+                padding-left: 15px;
+            }
+            .data-group h3 {
+                margin-top: 0;
+            }

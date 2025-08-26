@@ -5,13 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aplikasi Sortir Antrean Mobil Masuk</title>
     <style>
-      /* Style dasar yang berfungsi di sebagian besar browser modern */
+      /* Penggunaan properti khusus CSS untuk kemudahan pemeliharaan */
+      :root {
+        --color-primary: #7154b1;
+        --color-primary-hover: #805dc1;
+        --color-text-dark: #1e293b;
+        --color-text-medium: #475569;
+        --color-text-light: #334155;
+        --color-bg-light: #f0f4f8;
+        --color-bg-white: #ffffff;
+        --color-border: #e2e8f0;
+        --color-bg-hover: #f1f5f9;
+        --color-bg-code: #e2e8f0;
+        --color-error-bg: #fecaca;
+        --color-error-text: #ef4444;
+        --color-error-border: #fca5a5;
+      }
+
       body {
         font-family: Arial, Helvetica, sans-serif;
-        color: #334155;
+        color: var(--color-text-light);
         padding: 2rem;
         position: relative;
-        /* Tambahan untuk konsistensi di Chrome/Mozilla */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
@@ -19,17 +34,14 @@
       .container {
         max-width: 100%;
         margin: 0 auto;
-        background-color: #f0f4f8;
+        background-color: var(--color-bg-light);
         padding: 2rem;
         border-radius: 1rem;
-        /* Bayangan kotak dengan prefix untuk kompatibilitas */
-        -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        -moz-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
 
       h1 {
-        color: #1e293b;
+        color: var(--color-text-dark);
         font-size: 1.5rem;
         margin-bottom: 1.5rem;
       }
@@ -39,29 +51,24 @@
         border: 1px solid #cbd5e1;
         border-radius: 0.5rem;
         background-color: #f8fafc;
-        /* Menghilangkan gaya default input file di beberapa browser */
-        -webkit-appearance: none;
-        -moz-appearance: none;
+        /* Menghilangkan gaya default input file */
         appearance: none;
       }
 
       #processButton {
-        background-color: #7154b1;
+        background-color: var(--color-primary);
         color: white;
         padding: 0.75rem 1.5rem;
         border: none;
         border-radius: 0.5rem;
         font-weight: bold;
         cursor: pointer;
-        /* Transisi dengan prefix untuk kompatibilitas */
-        -webkit-transition: background-color 0.2s ease-in-out;
-        -moz-transition: background-color 0.2s ease-in-out;
         transition: background-color 0.2s ease-in-out;
         margin-left: 1rem;
       }
 
       #processButton:hover {
-        background-color: #805dc1;
+        background-color: var(--color-primary-hover);
       }
 
       #spreadsheet-data {
@@ -76,28 +83,25 @@
         border-collapse: collapse;
         width: 100%;
         min-width: 800px;
-        background-color: #ffffff;
+        background-color: var(--color-bg-white);
         border-radius: 0.5rem;
         overflow: hidden;
-        /* Bayangan kotak dengan prefix untuk kompatibilitas */
-        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         margin-bottom: 1rem;
       }
 
       th,
       td {
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--color-border);
         padding: 1rem;
         text-align: left;
         white-space: nowrap;
       }
 
       th {
-        background-color: #e2e8f0;
+        background-color: var(--color-border);
         font-weight: 600;
-        color: #475569;
+        color: var(--color-text-medium);
       }
 
       tr:nth-child(even) {
@@ -105,31 +109,46 @@
       }
 
       tr:hover {
-        background-color: #f1f5f9;
+        background-color: var(--color-bg-hover);
       }
 
       .message-box {
         margin-top: 1rem;
         padding: 1rem;
-        background-color: #fecaca;
-        color: #ef4444;
-        border: 1px solid #fca5a5;
+        background-color: var(--color-error-bg);
+        color: var(--color-error-text);
+        border: 1px solid var(--color-error-border);
         border-radius: 0.5rem;
         display: none;
       }
 
-      #spreadsheet-data > details > summary {
+      details > summary {
         font-size: 1rem;
         margin: 0;
         padding: 1rem;
-        background-color: #e2e8f0;
-        color: #475569;
+        background-color: var(--color-border);
+        color: var(--color-text-medium);
         border-radius: 0.5rem;
         list-style: none;
-        /* Atur list-style untuk konsistensi di berbagai browser */
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+        cursor: pointer;
+        /* Atur list-style untuk konsistensi */
+        display: flex;
+        align-items: center;
+      }
+
+      details summary::-webkit-details-marker,
+      details summary::marker {
+        display: none;
+      }
+
+      details > summary:before {
+        content: "▶️";
+        margin-right: 1rem;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      details[open] > summary:before {
+        transform: rotate(90deg);
       }
 
       details {
@@ -138,11 +157,8 @@
         gap: 1rem;
       }
 
-      summary {
-        margin-left: 1rem;
-        list-style: inside;
-        cursor: pointer;
-        padding: 1rem;
+      summary strong {
+        font-size: 1.4em;
       }
 
       .image-content {
@@ -161,6 +177,18 @@
         justify-content: end;
         margin: 1rem;
       }
+
+      li {
+        line-height: 1.5rem;
+      }
+
+      code {
+        background-color: var(--color-bg-code);
+        padding: 0.2em 0.4em;
+        border-radius: 0.3rem;
+        font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+        font-size: 0.9em;
+      }
     </style>
   </head>
   <body>
@@ -168,298 +196,315 @@
 
     <div class="container">
       <h1>Aplikasi Sortir Antrean Mobil Masuk</h1>
-
-      <!-- Input file dan tombol proses -->
       <input type="file" id="fileInput" accept=".csv, .xlsx" />
       <button id="processButton">Proses Data</button>
 
-      <!-- Area untuk menampilkan pesan -->
       <div id="messageBox" class="message-box"></div>
 
-      <!-- Area untuk menampilkan tabel data -->
       <div id="spreadsheet-data"></div>
+
+      <div
+        style="
+          background-color: var(--color-bg-hover);
+          padding: 1rem;
+          border-radius: 0.5rem;
+          margin-top: 1rem;
+        "
+      >
+        <p>
+          <span style="font-weight: bold; color: var(--color-primary)"
+            >Kelola Antrean Mobil Masuk Anda Lebih Efisien!</span
+          >
+          Aplikasi ini dirancang untuk membantu Anda dengan mudah memproses dan
+          menyortir data antrean mobil masuk dari file spreadsheet (<code
+            >.csv</code
+          >
+          atau <code>.xlsx</code>).
+        </p>
+        <p>
+          <span style="font-weight: bold; color: var(--color-primary)"
+            >Cara Menggunakan:</span
+          >
+        </p>
+        <ol>
+          <li>
+            Klik tombol <code>Choose File</code> dan pilih file spreadsheet Anda
+            (format CSV atau XLSX).
+          </li>
+          <li>
+            Setelah file berhasil dimuat, klik tombol
+            <code style="background-color: var(--color-primary); color: white"
+              >Proses Data</code
+            >.
+          </li>
+          <li>
+            Aplikasi akan memproses dan menampilkan antrean dalam grup yang
+            terorganisir berdasarkan Tanggal dan Tipe Shipping. Klik pada judul
+            setiap grup untuk melihat atau menyembunyikan detail antrean di
+            dalamnya.
+          </li>
+        </ol>
+        <p>
+          <span style="font-weight: bold; color: var(--color-primary)"
+            >Fitur Unggulan:</span
+          >
+        </p>
+        <ul>
+          <li>
+            <strong>Pemisahan Otomatis:</strong> Tanggal dan waktu dari kolom
+            "Confirm In" langsung dipisahkan untuk kemudahan analisis.
+          </li>
+          <li>
+            <strong>Pengurutan Cerdas:</strong> Data antrean diurutkan secara
+            otomatis berdasarkan Tanggal, Tipe Shipping, dan Waktu Confirm In,
+            memastikan prioritas yang jelas.
+          </li>
+          <li>
+            <strong>Pengelompokan Intuitif:</strong> Antrean dikelompokkan
+            berdasarkan Tipe Shipping dalam tampilan yang rapi dan dapat
+            diciutkan (collapsible), memudahkan navigasi data.
+          </li>
+          <li>
+            <strong>Tampilan Ringkas:</strong> Hanya menampilkan informasi kunci
+            seperti No. Polisi, Driver, KM In/Out, dan Waktu Confirm In dalam
+            tabel hasil.
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="image-content">
-      <!-- Menggunakan placeholder gambar agar dapat dimuat dengan pasti -->
-      <img src="transport art.avif" alt="transport logistic" />
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script>
-      let rawData = null; // Variabel untuk menyimpan data mentah dari file
+    <div
+      style="
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--color-border);
+        padding-top: 1.5rem;
+      "
+    >
+      <div class="image-content">
+        <img src="transport art.avif" alt="transport logistic" />
+      </div>
 
-      // Menunggu hingga seluruh dokumen (termasuk skrip XLSX.js) dimuat
-      document.addEventListener("DOMContentLoaded", () => {
-        // Menampilkan tanggal hari ini saat halaman dimuat
-        const currentDateElement = document.getElementById("currentDate");
-        const today = new Date();
-        const options = {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        };
-        const formattedDate = today.toLocaleDateString("id-ID", options);
-        currentDateElement.textContent = `${formattedDate}`;
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+      <script>
+        let rawData = null;
 
-        const fileInput = document.getElementById("fileInput");
-        const processButton = document.getElementById("processButton");
-        const messageBox = document.getElementById("messageBox");
-
-        /**
-         * Mengambil file yang dipilih oleh pengguna dan memprosesnya.
-         * File dibaca sebagai array buffer dan diurai menggunakan XLSX.js.
-         * Data diubah menjadi format JSON dan disimpan di variabel `rawData`.
-         */
-        fileInput.addEventListener("change", function (e) {
-          const file = e.target.files[0];
-          if (!file) {
-            return;
-          }
-
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: "array" });
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-
-            // Mengubah data spreadsheet menjadi array of objects (JSON)
-            rawData = XLSX.utils.sheet_to_json(sheet);
-
-            // Tampilkan pesan bahwa file berhasil dimuat
-            hideMessage();
-            document.getElementById("spreadsheet-data").innerHTML =
-              '<p>File berhasil dimuat. Tekan "Proses Data" untuk melihat hasil.</p>';
+        document.addEventListener("DOMContentLoaded", () => {
+          const currentDateElement = document.getElementById("currentDate");
+          const today = new Date();
+          const options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
           };
-          reader.readAsArrayBuffer(file);
-        });
+          const formattedDate = today.toLocaleDateString("id-ID", options);
+          currentDateElement.textContent = `${formattedDate}`;
+          const messageBox = document.getElementById("messageBox");
+          const fileInput = document.getElementById("fileInput");
+          const processButton = document.getElementById("processButton");
 
-        /**
-         * Memproses data ketika tombol "Proses Data" diklik.
-         * Ini adalah fungsi inti yang melakukan semua langkah:
-         * 1. Memisahkan tanggal dan waktu dari kolom "Confirm In".
-         * 2. Mengurutkan data berdasarkan tiga kriteria.
-         * 3. Menampilkan data yang sudah diurutkan dalam bentuk tabel yang dikelompokkan.
-         */
-        processButton.addEventListener("click", function () {
-          if (!rawData) {
-            showMessage("Silakan pilih file terlebih dahulu.", "error");
-            return;
-          }
-          hideMessage();
+          /**
+           * Memuat file yang dipilih oleh pengguna.
+           * Data diubah menjadi array of objects dan disimpan di variabel `rawData`.
+           */
+          fileInput.addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (!file) {
+              return;
+            }
 
-          // Menambahkan log untuk memeriksa data yang sedang diproses.
-          // Buka Developer Tools (F12) dan lihat di tab Console.
-          console.log("Data mentah dari file:", rawData);
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const data = new Uint8Array(e.target.result);
+              const workbook = XLSX.read(data, {
+                type: "array",
+              });
+              const sheetName = workbook.SheetNames[0];
+              const sheet = workbook.Sheets[sheetName];
 
-          // 1. Memisahkan Tanggal dan Waktu serta menambahkan properti baru
-          const processedData = rawData.map((row) => {
-            // Mengambil nilai dari kolom 'Confirm In'
-            const confirmInValue = row["Confirm In"];
-            let date = "";
-            let time = "";
+              rawData = XLSX.utils.sheet_to_json(sheet);
 
-            // Memastikan nilai tidak null atau undefined dan bukan string kosong
-            if (
-              confirmInValue &&
-              typeof confirmInValue === "string" &&
-              confirmInValue.trim() !== ""
-            ) {
-              // Coba pisahkan berdasarkan spasi terlebih dahulu (format YYYY-MM-DD HH:mm:ss)
-              const partsBySpace = confirmInValue.split(" ");
-              if (partsBySpace.length > 1) {
-                date = partsBySpace[0];
-                time = partsBySpace.slice(1).join(" ");
-              } else {
-                // Jika tidak ada spasi, coba pisahkan berdasarkan '-' (format YYYY-MM-DD-HH:mm:ss)
-                const partsByDash = confirmInValue.split("-");
-                if (partsByDash.length >= 4) {
-                  date = `${partsByDash[0]}-${partsByDash[1]}-${partsByDash[2]}`;
-                  time = partsByDash.slice(3).join(":");
+              hideMessage();
+              document.getElementById("spreadsheet-data").innerHTML =
+                '<p>File berhasil dimuat. Tekan "Proses Data" untuk melihat hasil.</p>';
+            };
+            reader.readAsArrayBuffer(file);
+          });
+
+          /**
+           * Memproses data ketika tombol "Proses Data" diklik.
+           * Melakukan pemisahan tanggal/waktu, pengurutan, dan menampilkan hasil.
+           */
+          processButton.addEventListener("click", function () {
+            if (!rawData) {
+              showMessage("Silakan pilih file terlebih dahulu.");
+              return;
+            }
+            hideMessage();
+
+            const processedData = rawData.map((row) => {
+              const confirmInValue = row["Confirm In"];
+              let date = "";
+              let time = "";
+
+              if (
+                confirmInValue &&
+                typeof confirmInValue === "string" &&
+                confirmInValue.trim() !== ""
+              ) {
+                const parts = confirmInValue.split(" ");
+                if (parts.length > 1) {
+                  date = parts[0];
+                  time = parts.slice(1).join(" ");
                 } else {
-                  // Jika format tidak cocok, gunakan nilai asli
-                  date = confirmInValue;
-                  time = "";
+                  // Coba pisahkan dengan "-" jika format default gagal
+                  const dashParts = confirmInValue.split("-");
+                  if (dashParts.length >= 4) {
+                    date = `${dashParts[0]}-${dashParts[1]}-${dashParts[2]}`;
+                    time = dashParts.slice(3).join(":");
+                  } else {
+                    date = confirmInValue;
+                    time = "";
+                  }
                 }
               }
-            }
 
-            // Mengembalikan objek baru dengan properti 'Tanggal Confirm In' dan 'Waktu Confirm In'
-            // Salin semua properti asli, lalu tambahkan atau timpa yang baru
-            const newRow = { ...row };
-            newRow["Tanggal Confirm In"] = date;
-            newRow["Waktu Confirm In"] = time;
-            // Hapus kolom 'Confirm In' asli untuk kejelasan dalam tampilan
-            delete newRow["Confirm In"];
+              const newRow = { ...row };
+              newRow["Tanggal Confirm In"] = date;
+              newRow["Waktu Confirm In"] = time;
+              delete newRow["Confirm In"];
 
-            return newRow;
-          });
-
-          // Menambahkan log untuk memeriksa data setelah pemisahan tanggal dan waktu
-          console.log(
-            "Data setelah pemisahan tanggal dan waktu:",
-            processedData
-          );
-
-          // 2. Mengurutkan data sesuai kriteria
-          processedData.sort((a, b) => {
-            // Urutan pertama: Tanggal Confirm In (asc)
-            const dateA = a["Tanggal Confirm In"] || "";
-            const dateB = b["Tanggal Confirm In"] || "";
-            if (dateA !== dateB) {
-              return dateA.localeCompare(dateB);
-            }
-
-            // Urutan kedua: Tipe Shipping (asc)
-            const shippingA = a["Tipe Shipping"] || "";
-            const shippingB = b["Tipe Shipping"] || "";
-            if (shippingA !== shippingB) {
-              return shippingA.localeCompare(shippingB);
-            }
-
-            // Urutan ketiga: Waktu Confirm In (asc)
-            const timeA = a["Waktu Confirm In"] || "";
-            const timeB = b["Waktu Confirm In"] || "";
-            return timeA.localeCompare(timeB);
-          });
-
-          // Menambahkan log untuk memeriksa data setelah diurutkan
-          console.log("Data setelah diurutkan:", processedData);
-
-          // 3. Menampilkan data yang sudah diurutkan dalam bentuk grup
-          displayGroupedTable(processedData);
-        });
-
-        /**
-         * Fungsi untuk membuat dan menampilkan data yang dikelompokkan.
-         * Pengelompokan dilakukan dalam dua tingkat:
-         * 1. Berdasarkan 'Tanggal Confirm In'.
-         * 2. Berdasarkan 'Tipe Shipping' di dalam setiap tanggal.
-         * @param {Array<Object>} data - Array data yang sudah diurutkan dan diproses.
-         */
-        function displayGroupedTable(data) {
-          if (data.length === 0) {
-            document.getElementById("spreadsheet-data").innerHTML =
-              "<p>Data tidak ditemukan setelah diproses.</p>";
-            return;
-          }
-
-          const tableContainer = document.getElementById("spreadsheet-data");
-          tableContainer.innerHTML = ""; // Hapus konten sebelumnya
-
-          const dateColumn = "Tanggal Confirm In";
-          const shippingTypeColumn = "Tipe Shipping";
-
-          // Kelompokkan data terlebih dahulu berdasarkan tanggal
-          const groupedByDate = {};
-          data.forEach((row) => {
-            const date = row[dateColumn] || "Proses Kiriman";
-            if (!groupedByDate[date]) {
-              groupedByDate[date] = [];
-            }
-            groupedByDate[date].push(row);
-          });
-
-          // Tampilkan data yang dikelompokkan berdasarkan tanggal
-          for (const date in groupedByDate) {
-            const dateData = groupedByDate[date];
-            const dateDetailsElement = document.createElement("details");
-            const dateSummaryElement = document.createElement("summary");
-            dateSummaryElement.innerHTML = `<strong style="font-size: 1.4em;">🚚 : ${date}</strong> (${dateData.length} item)`;
-            dateDetailsElement.appendChild(dateSummaryElement);
-
-            // Di dalam setiap tanggal, kelompokkan lagi berdasarkan Tipe Shipping
-            const groupedByShippingType = {};
-            dateData.forEach((row) => {
-              const shippingType = row[shippingTypeColumn] || "Proses Kiriman";
-              if (!groupedByShippingType[shippingType]) {
-                groupedByShippingType[shippingType] = [];
-              }
-              groupedByShippingType[shippingType].push(row);
+              return newRow;
             });
 
-            // Tampilkan setiap grup Tipe Shipping dalam elemen details
-            for (const shippingType in groupedByShippingType) {
-              const shippingData = groupedByShippingType[shippingType];
-              const shippingDetailsElement = document.createElement("details");
-              const shippingSummaryElement = document.createElement("summary");
-              shippingSummaryElement.innerHTML = `<strong style="font-size: 1.2em; margin-left: 20px;">Tipe Shipping: ${shippingType}</strong> (${shippingData.length} item)`;
-              shippingDetailsElement.appendChild(shippingSummaryElement);
+            processedData.sort((a, b) => {
+              const dateA = a["Tanggal Confirm In"] || "";
+              const dateB = b["Tanggal Confirm In"] || "";
+              if (dateA !== dateB) {
+                return dateA.localeCompare(dateB);
+              }
 
-              // Tentukan header yang relevan untuk tabel, sesuai permintaan pengguna
-              const relevantHeaders = [
-                "No. Polisi",
-                "Driver",
-                "KM In",
-                "KM Out",
-                "Waktu Confirm In",
-              ];
+              const shippingA = a["Tipe Shipping"] || "";
+              const shippingB = b["Tipe Shipping"] || "";
+              if (shippingA !== shippingB) {
+                return shippingA.localeCompare(shippingB);
+              }
 
-              // Buat tabel untuk data dalam grup ini
-              const table = document.createElement("table");
-              const thead = document.createElement("thead");
-              const tbody = document.createElement("tbody");
+              const timeA = a["Waktu Confirm In"] || "";
+              const timeB = b["Waktu Confirm In"] || "";
+              return timeA.localeCompare(timeB);
+            });
 
-              // Membuat header tabel
-              const headerRow = document.createElement("tr");
-              relevantHeaders.forEach((headerText) => {
-                const th = document.createElement("th");
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-              });
-              thead.appendChild(headerRow);
-              table.appendChild(thead);
+            displayGroupedTable(processedData);
+          });
 
-              // Membuat baris data
-              shippingData.forEach((rowData) => {
-                const tr = document.createElement("tr");
-                relevantHeaders.forEach((headerText) => {
-                  const td = document.createElement("td");
-                  td.textContent = rowData[headerText] || "";
-                  tr.appendChild(td);
-                });
-                tbody.appendChild(tr);
-              });
-              table.appendChild(tbody);
-
-              shippingDetailsElement.appendChild(table);
-              dateDetailsElement.appendChild(shippingDetailsElement);
+          /**
+           * Mengelompokkan dan menampilkan data dalam tabel yang dapat diciutkan.
+           */
+          function displayGroupedTable(data) {
+            if (data.length === 0) {
+              document.getElementById("spreadsheet-data").innerHTML =
+                "<p>Data tidak ditemukan setelah diproses.</p>";
+              return;
             }
 
-            tableContainer.appendChild(dateDetailsElement);
-          }
-        }
+            const tableContainer = document.getElementById("spreadsheet-data");
+            tableContainer.innerHTML = "";
 
-        /**
-         * Menampilkan pesan di kotak pesan
-         */
-        function showMessage(text, type) {
-          messageBox.textContent = text;
-          messageBox.className = "message-box";
-          if (type === "error") {
-            messageBox.classList.add(
-              "bg-red-200",
-              "text-red-700",
-              "border-red-400"
-            );
-          } else {
-            messageBox.classList.add(
-              "bg-blue-200",
-              "text-blue-700",
-              "border-blue-400"
-            );
-          }
-          messageBox.style.display = "block";
-        }
+            const dateColumn = "Tanggal Confirm In";
+            const shippingTypeColumn = "Tipe Shipping";
 
-        /**
-         * Menyembunyikan kotak pesan
-         */
-        function hideMessage() {
-          messageBox.style.display = "none";
-        }
-      });
-    </script>
+            const groupedByDate = {};
+            data.forEach((row) => {
+              const date = row[dateColumn] || "Proses Kiriman";
+              if (!groupedByDate[date]) {
+                groupedByDate[date] = [];
+              }
+              groupedByDate[date].push(row);
+            });
+
+            for (const date in groupedByDate) {
+              const dateData = groupedByDate[date];
+              const dateDetailsElement = document.createElement("details");
+              const dateSummaryElement = document.createElement("summary");
+              dateSummaryElement.innerHTML = `<strong>🚚 : ${date} &nbsp; </strong> (${dateData.length} item)`;
+              dateDetailsElement.appendChild(dateSummaryElement);
+
+              const groupedByShippingType = {};
+              dateData.forEach((row) => {
+                const shippingType =
+                  row[shippingTypeColumn] || "Proses Kiriman";
+                if (!groupedByShippingType[shippingType]) {
+                  groupedByShippingType[shippingType] = [];
+                }
+                groupedByShippingType[shippingType].push(row);
+              });
+
+              for (const shippingType in groupedByShippingType) {
+                const shippingData = groupedByShippingType[shippingType];
+                const shippingDetailsElement =
+                  document.createElement("details");
+                const shippingSummaryElement =
+                  document.createElement("summary");
+                shippingSummaryElement.innerHTML = `<strong style="margin-left: 2rem;">${shippingType} &nbsp; </strong> (${shippingData.length} item)`;
+                shippingDetailsElement.appendChild(shippingSummaryElement);
+
+                const relevantHeaders = [
+                  "No. Polisi",
+                  "Driver",
+                  "KM In",
+                  "KM Out",
+                  "Waktu Confirm In",
+                ];
+
+                const table = document.createElement("table");
+                const thead = document.createElement("thead");
+                const tbody = document.createElement("tbody");
+
+                const headerRow = document.createElement("tr");
+                relevantHeaders.forEach((headerText) => {
+                  const th = document.createElement("th");
+                  th.textContent = headerText;
+                  headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                shippingData.forEach((rowData) => {
+                  const tr = document.createElement("tr");
+                  relevantHeaders.forEach((headerText) => {
+                    const td = document.createElement("td");
+                    td.textContent = rowData[headerText] || "";
+                    tr.appendChild(td);
+                  });
+                  tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+
+                shippingDetailsElement.appendChild(table);
+                dateDetailsElement.appendChild(shippingDetailsElement);
+              }
+
+              tableContainer.appendChild(dateDetailsElement);
+            }
+          }
+
+          /**
+           * Menampilkan pesan error.
+           */
+          function showMessage(text) {
+            messageBox.textContent = text;
+            messageBox.style.display = "block";
+          }
+
+          /**
+           * Menyembunyikan kotak pesan.
+           */
+          function hideMessage() {
+            messageBox.style.display = "none";
+          }
+        });
+      </script>
+    </div>
   </body>
 </html>

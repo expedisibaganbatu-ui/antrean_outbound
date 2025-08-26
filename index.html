@@ -5,31 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aplikasi Sortir Antrean Mobil Masuk</title>
     <style>
+      /* Style dasar yang berfungsi di sebagian besar browser modern */
       body {
         font-family: Arial, Helvetica, sans-serif;
         color: #334155;
         padding: 2rem;
         position: relative;
+        /* Tambahan untuk konsistensi di Chrome/Mozilla */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
+
       .container {
         max-width: 100%;
         margin: 0 auto;
         background-color: #f0f4f8;
         padding: 2rem;
         border-radius: 1rem;
+        /* Bayangan kotak dengan prefix untuk kompatibilitas */
+        -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
+
       h1 {
         color: #1e293b;
         font-size: 1.5rem;
         margin-bottom: 1.5rem;
       }
+
       #fileInput {
         padding: 0.5rem;
         border: 1px solid #cbd5e1;
         border-radius: 0.5rem;
         background-color: #f8fafc;
+        /* Menghilangkan gaya default input file di beberapa browser */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
       }
+
       #processButton {
         background-color: #7154b1;
         color: white;
@@ -38,16 +53,22 @@
         border-radius: 0.5rem;
         font-weight: bold;
         cursor: pointer;
+        /* Transisi dengan prefix untuk kompatibilitas */
+        -webkit-transition: background-color 0.2s ease-in-out;
+        -moz-transition: background-color 0.2s ease-in-out;
         transition: background-color 0.2s ease-in-out;
         margin-left: 1rem;
       }
+
       #processButton:hover {
         background-color: #805dc1;
       }
+
       #spreadsheet-data {
         margin-top: 2rem;
         overflow-x: auto;
       }
+
       table {
         border-collapse: collapse;
         width: 100%;
@@ -55,9 +76,13 @@
         background-color: #ffffff;
         border-radius: 0.5rem;
         overflow: hidden;
+        /* Bayangan kotak dengan prefix untuk kompatibilitas */
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         margin-bottom: 1rem;
       }
+
       th,
       td {
         border: 1px solid #e2e8f0;
@@ -65,17 +90,21 @@
         text-align: left;
         white-space: nowrap;
       }
+
       th {
         background-color: #e2e8f0;
         font-weight: 600;
         color: #475569;
       }
+
       tr:nth-child(even) {
         background-color: #f8fafc;
       }
+
       tr:hover {
         background-color: #f1f5f9;
       }
+
       .message-box {
         margin-top: 1rem;
         padding: 1rem;
@@ -85,6 +114,7 @@
         border-radius: 0.5rem;
         display: none;
       }
+
       #spreadsheet-data > details > summary {
         font-size: 1rem;
         margin: 0;
@@ -93,25 +123,34 @@
         color: #475569;
         border-radius: 0.5rem;
         list-style: none;
+        /* Atur list-style untuk konsistensi di berbagai browser */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
       }
+
       details {
         display: flex;
         flex-direction: column;
         gap: 1rem;
       }
+
       summary {
         margin-left: 1rem;
         list-style: inside;
         cursor: pointer;
       }
+
       .image-content {
         text-align: center;
         margin-top: 2rem;
       }
+
       img {
         max-width: 100%;
         height: auto;
       }
+
       #currentDate {
         font-size: 1.2rem;
         display: flex;
@@ -137,6 +176,7 @@
       <div id="spreadsheet-data"></div>
     </div>
     <div class="image-content">
+      <!-- Menggunakan placeholder gambar agar dapat dimuat dengan pasti -->
       <img src="transport art.avif" alt="transport logistic" />
     </div>
 

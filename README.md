@@ -1,1 +1,2 @@
-A simple HTML/JS/CSS starter template
+
+https://expedisibaganbatu-ui.github.io/antrean_outbound/

@@ -1,155 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aplikasi Sortir Antrean Mobil Masuk</title>
+    <title>Dashboard Antrean Modern</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+      /* --- PALET WARNA SOFT & MODERN --- */
       :root {
-        --primary: #2563eb;
-        --bg-light: #f1f5f9;
-        --card-bg: #ffffff;
-        --text-dark: #1e293b;
-        --text-gray: #64748b;
-        --border: #e2e8f0;
+        --primary-soft: #6366f1; 
+        --primary-wash: #eef2ff; 
+        --bg-main: #f8fafc; 
+        --bg-card: #ffffff; 
+        --text-dark: #334155; 
+        --text-medium: #64748b; 
+        --text-light: #94a3b8; 
+        --border-subtle: #f1f5f9; 
+        --shadow-soft: 0 10px 25px -5px rgba(99, 102, 241, 0.08), 0 8px 10px -6px rgba(99, 102, 241, 0.02);
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --accent-info: #3b82f6;
+        --bg-info: #eff6ff;
       }
 
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--bg-light);
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-main);
         color: var(--text-dark);
-        padding: 20px;
+        padding: 30px;
         margin: 0;
+        line-height: 1.5;
       }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        background: white;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      }
+      /* Icons */
+      .icon { width: 20px; height: 20px; stroke-width: 1.8; color: var(--text-medium); }
+      .icon-primary { color: var(--primary-soft); }
 
-      h1 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-dark); }
-      
-      /* Input & Button Styles */
-      .controls { margin-bottom: 2rem; display: flex; gap: 10px; align-items: center; }
-      input[type="file"] { padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
-      button {
-        background-color: var(--primary); color: white; border: none;
-        padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;
-        transition: 0.2s;
-      }
-      button:hover { background-color: #1d4ed8; }
+      .container { max-width: 1100px; margin: 0 auto; }
 
-      /* --- STYLE UTAMA PERUBAHAN --- */
+      /* Header */
+      .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+      h1 { font-weight: 700; font-size: 1.75rem; color: var(--text-dark); margin: 0; letter-spacing: -0.025em; }
+      #currentDate { font-weight: 500; color: var(--text-medium); }
 
-      /* Container per Tanggal */
-      .date-section {
+      /* --- USER GUIDE SECTION (BARU) --- */
+      .guide-wrapper {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
         margin-bottom: 2rem;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        overflow: hidden;
-        background: #fff;
+        box-shadow: var(--shadow-soft);
+        border: 1px solid var(--border-subtle);
       }
 
-      .date-header {
-        background: #334155;
-        color: white;
-        padding: 10px 15px;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-      }
-
-      /* Container per Tipe Shipping */
-      .shipping-section {
-        padding: 15px;
-        border-bottom: 1px dashed var(--border);
-      }
-      .shipping-section:last-child { border-bottom: none; }
-
-      .shipping-title {
-        font-size: 1.1rem;
-        color: var(--primary);
+      .guide-title {
+        font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 10px;
+        color: var(--text-dark);
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 8px;
       }
 
-      /* AREA HORIZONTAL (QUEUE) */
-      .horizontal-queue {
-        display: flex;
-        flex-direction: row; /* Arah ke samping */
-        flex-wrap: wrap;     /* Turun ke bawah jika penuh */
-        gap: 12px;           /* Jarak antar kartu */
+      .guide-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
       }
 
-      /* KARTU MOBIL */
-      .car-card {
-        background: white;
-        border: 1px solid #cbd5e1;
-        border-left: 4px solid var(--primary); /* Aksen warna di kiri */
-        border-radius: 6px;
-        padding: 10px;
-        width: 130px; /* Lebar fix agar rapi */
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      .step-item {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: flex-start;
-        transition: transform 0.2s;
+        gap: 12px;
       }
 
-      .car-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        border-color: var(--primary);
-      }
-
-      .nopol {
-        font-size: 1.1rem;
-        font-weight: 800;
-        color: var(--text-dark);
-        margin-bottom: 4px;
-        letter-spacing: 0.5px;
-      }
-
-      .waktu-box {
-        font-size: 0.85rem;
-        color: var(--text-gray);
-        background: #f1f5f9;
-        padding: 2px 6px;
-        border-radius: 4px;
+      .step-number {
+        background: var(--primary-wash);
+        color: var(--primary-soft);
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 4px;
-        width: 100%;
-        box-sizing: border-box;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+
+      .step-content h4 { margin: 0 0 4px 0; font-size: 0.95rem; font-weight: 600; }
+      .step-content p { margin: 0; font-size: 0.85rem; color: var(--text-medium); }
+      
+      .code-badge {
+        background: var(--bg-main);
+        border: 1px solid var(--border-subtle);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+        color: var(--primary-soft);
+        font-size: 0.8em;
+      }
+
+      /* --- CONTROLS --- */
+      .controls-wrapper {
+        background: var(--bg-card);
+        padding: 1.5rem;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 3rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+        border: 1px solid var(--border-subtle);
+      }
+
+      input[type="file"] {
+        padding: 10px;
+        border: 1px solid #e2e8f0;
+        border-radius: var(--radius-md);
+        background: var(--bg-main);
+        color: var(--text-medium);
+        font-size: 0.9rem;
+        flex-grow: 1;
       }
       
-      .waktu-icon { font-size: 0.8em; }
-
-      /* Utility */
-      .message-box {
-        padding: 1rem; background: #fee2e2; color: #dc2626;
-        border-radius: 6px; margin-bottom: 1rem; display: none;
+      button#processButton {
+        background-color: var(--primary-soft);
+        color: white; border: none; padding: 12px 24px;
+        border-radius: var(--radius-md); cursor: pointer; font-weight: 600;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
       }
-      #currentDate { text-align: right; margin-bottom: 10px; font-weight: 600; color: var(--text-gray); }
+      button#processButton:hover { background-color: #4f46e5; transform: translateY(-1px); }
+
+      /* --- RESULTS --- */
+      .date-section { margin-bottom: 3rem; }
+      .date-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-subtle); }
+      .date-header h2 { font-size: 1.25rem; font-weight: 600; color: var(--text-dark); margin: 0; }
+      
+      .shipping-section { margin-bottom: 2rem; padding-left: 1rem; }
+      .shipping-title { font-size: 1rem; font-weight: 600; color: var(--text-medium); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+      .badge-count { background-color: var(--primary-wash); color: var(--primary-soft); font-size: 0.75rem; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+
+      .horizontal-queue { display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+
+      .car-card {
+        background: var(--bg-card); border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-lg); padding: 16px; width: 140px;
+        box-shadow: var(--shadow-soft); display: flex; flex-direction: column;
+        transition: all 0.3s ease; position: relative; overflow: hidden;
+      }
+      .car-card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.15); border-color: var(--primary-wash); }
+      .car-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--primary-soft); opacity: 0.7; }
+
+      .nopol { font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; letter-spacing: -0.03em; line-height: 1.2; }
+      .waktu-info { font-size: 0.85rem; color: var(--text-medium); display: flex; align-items: center; gap: 6px; font-weight: 500; }
+
+      .message-box { padding: 1rem; background: #fee2e2; color: #b91c1c; border-radius: var(--radius-md); margin-bottom: 2rem; display: none; border: 1px solid #fecaca; }
     </style>
   </head>
   <body>
-    <p id="currentDate"></p>
-
     <div class="container">
-      <h1>Dashboard Antrean Masuk (Horizontal)</h1>
+      <div class="header-flex">
+          <h1>Antrean Masuk</h1>
+          <p id="currentDate"></p>
+      </div>
+
+      <div class="guide-wrapper">
+        <div class="guide-title">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon icon-primary">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Panduan Penggunaan
+        </div>
+        <div class="guide-steps">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Siapkan File</h4>
+                    <p>Gunakan file Excel (.xlsx) atau CSV yang berisi data kendaraan.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Cek Judul Kolom</h4>
+                    <p>Pastikan ada kolom: <span class="code-badge">No. Polisi</span>, <span class="code-badge">Tipe Shipping</span>, dan <span class="code-badge">Confirm In</span>.</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Proses</h4>
+                    <p>Upload file di bawah dan klik tombol "Proses" untuk melihat dashboard.</p>
+                </div>
+            </div>
+        </div>
+      </div>
       
-      <div class="controls">
+      <div class="controls-wrapper">
         <input type="file" id="fileInput" accept=".csv, .xlsx" />
-        <button id="processButton">Proses Data</button>
+        <button id="processButton">Proses Data Antrean</button>
       </div>
 
       <div id="messageBox" class="message-box"></div>
@@ -159,10 +213,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
+      // Icons SVG
+      const icons = {
+          calendar: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon icon-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>`,
+          truck: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon icon-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0c0-.621.351-1.173.882-1.428L7.5 12.39a1.5 1.5 0 011.406-.99h6.313a1.5 1.5 0 011.406.99l1.368 4.932a1.5 1.5 0 01.882 1.428 1.5 1.5 0 01-3 0M16.5 13.5h-4.5m4.5 0v4.5m0-4.5L19.5 19.5M3 19.5l1.5-6.75a2.25 2.25 0 012.187-1.75h9.476a2.25 2.25 0 012.187 1.75l1.5 6.75M3 19.5h18" /></svg>`,
+          clock: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-sm icon-primary" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
+      };
+
       let rawData = null;
 
       document.addEventListener("DOMContentLoaded", () => {
-        // Tampilkan Tanggal Hari Ini
         const today = new Date();
         document.getElementById("currentDate").textContent = today.toLocaleDateString("id-ID", {
           weekday: "long", year: "numeric", month: "long", day: "numeric"
@@ -173,7 +233,6 @@
         const resultArea = document.getElementById("resultArea");
         const messageBox = document.getElementById("messageBox");
 
-        // 1. BACA FILE
         fileInput.addEventListener("change", (e) => {
           const file = e.target.files[0];
           if (!file) return;
@@ -181,73 +240,49 @@
           reader.onload = (e) => {
             const data = new Uint8Array(e.target.result);
             const workbook = XLSX.read(data, { type: "array" });
-            const sheet = workbook.Sheets[workbook.SheetNames[0]];
-            rawData = XLSX.utils.sheet_to_json(sheet);
-            resultArea.innerHTML = '<p style="color:green">File dimuat. Klik tombol Proses.</p>';
+            rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+            resultArea.innerHTML = '<p style="color: var(--text-medium); text-align:center;">File siap. Klik tombol proses.</p>';
           };
           reader.readAsArrayBuffer(file);
         });
 
-        // 2. PROSES DATA
         processButton.addEventListener("click", () => {
           if (!rawData) {
-            messageBox.style.display = "block";
-            messageBox.textContent = "Pilih file dulu!";
-            return;
+            messageBox.style.display = "block"; messageBox.textContent = "Silakan pilih file terlebih dahulu."; return;
           }
           messageBox.style.display = "none";
 
-          // A. Bersihkan Data (Split Tanggal & Jam)
           const processed = rawData.map(row => {
             const rawConfirm = row["Confirm In"];
             let date = "-", time = "-";
-            
             if (rawConfirm && typeof rawConfirm === 'string') {
-              // Coba pisahkan Spasi (Excel format text) atau format ISO
               let parts = rawConfirm.trim().split(" ");
-              if (parts.length > 1) {
-                date = parts[0];
-                time = parts.slice(1).join(" "); // Ambil sisa sebagai jam
-              } else {
-                 // Coba pisah -
+              if (parts.length > 1) { date = parts[0]; time = parts.slice(1).join(" "); } 
+              else {
                  parts = rawConfirm.split("-");
-                 if(parts.length > 3) {
-                    date = `${parts[0]}-${parts[1]}-${parts[2]}`;
-                    time = parts.slice(3).join(":");
-                 } else {
-                    date = rawConfirm; 
-                 }
+                 if(parts.length > 3) { date = `${parts[0]}-${parts[1]}-${parts[2]}`; time = parts.slice(3).join(":"); } 
+                 else { date = rawConfirm; }
               }
             }
-            
-            return {
-              nopol: row["No. Polisi"] || "No Plate",
-              tipe: row["Tipe Shipping"] || "Lainnya",
-              tanggal: date,
-              jam: time
-            };
+            return { nopol: row["No. Polisi"] || "No Plate", tipe: row["Tipe Shipping"] || "Lainnya", tanggal: date, jam: time };
           });
 
-          // B. Sorting (Tanggal -> Tipe -> Jam)
           processed.sort((a, b) => {
              if (a.tanggal !== b.tanggal) return a.tanggal.localeCompare(b.tanggal);
              if (a.tipe !== b.tipe) return a.tipe.localeCompare(b.tipe);
              return a.jam.localeCompare(b.jam);
           });
 
-          // C. Rendering Tampilan
-          renderHorizontalLayout(processed);
+          renderModernLayout(processed);
         });
 
-        function renderHorizontalLayout(data) {
+        function renderModernLayout(data) {
           resultArea.innerHTML = "";
-          
           if (data.length === 0) {
-            resultArea.innerHTML = "<p>Data kosong.</p>"; 
+            resultArea.innerHTML = "<p style='text-align:center; color:var(--text-light)'>Data kosong.</p>"; 
             return;
           }
 
-          // Grouping Data
           const groups = {};
           data.forEach(item => {
             if (!groups[item.tanggal]) groups[item.tanggal] = {};
@@ -255,36 +290,32 @@
             groups[item.tanggal][item.tipe].push(item);
           });
 
-          // Loop Group Tanggal
           for (const [tgl, tipeGroups] of Object.entries(groups)) {
             const dateSection = document.createElement("div");
             dateSection.className = "date-section";
+            
+            dateSection.innerHTML = `<div class="date-header">${icons.calendar}<h2>${tgl}</h2></div>`;
 
-            // Header Tanggal
-            dateSection.innerHTML = `<div class="date-header"><span>📅 ${tgl}</span></div>`;
-
-            // Loop Tipe Shipping
             for (const [tipe, items] of Object.entries(tipeGroups)) {
                const shippingSection = document.createElement("div");
                shippingSection.className = "shipping-section";
 
-               // Judul Tipe
-               shippingSection.innerHTML = `<div class="shipping-title">🚚 ${tipe} <span style="font-size:0.8em; color:#64748b; font-weight:normal;">(${items.length} unit)</span></div>`;
+               shippingSection.innerHTML = `
+                    <div class="shipping-title">
+                        ${icons.truck}
+                        <span>${tipe}</span>
+                        <span class="badge-count">${items.length}</span>
+                    </div>`;
 
-               // Container Horizontal (Flex Row)
                const queueContainer = document.createElement("div");
                queueContainer.className = "horizontal-queue";
 
-               // Loop Mobil (Buat Kartu)
                items.forEach(mobil => {
                  const card = document.createElement("div");
                  card.className = "car-card";
-                 // HANYA NOPOL DAN JAM
                  card.innerHTML = `
                     <div class="nopol">${mobil.nopol}</div>
-                    <div class="waktu-box">
-                      <span class="waktu-icon">🕒</span> ${mobil.jam}
-                    </div>
+                    <div class="waktu-info">${icons.clock} <span>${mobil.jam}</span></div>
                  `;
                  queueContainer.appendChild(card);
                });
@@ -292,7 +323,6 @@
                shippingSection.appendChild(queueContainer);
                dateSection.appendChild(shippingSection);
             }
-
             resultArea.appendChild(dateSection);
           }
         }

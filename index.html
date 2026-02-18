@@ -8,17 +8,21 @@
     
     <style>
       :root {
-        --primary: #2563eb;       /* Biru sesuai screenshot */
+        --primary: #2563eb;       
         --primary-dark: #1d4ed8;
-        --bg-body: #f8fafc;       /* Latar Abu Sangat Muda */
+        --bg-body: #f8fafc;
         --surface: #ffffff;
         --text-main: #1e293b;
         --text-sec: #64748b;
         --border: #e2e8f0;
         
-        /* Warna Badge Tipe di dalam kartu */
         --badge-bg: #eff6ff; 
         --badge-text: #2563eb;
+
+        /* Warna Khusus OTW */
+        --otw-bg: #fff7ed;
+        --otw-text: #c2410c;
+        --otw-border: #fed7aa;
 
         --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       }
@@ -31,20 +35,17 @@
 
       .container { max-width: 1280px; margin: 0 auto; }
 
-      /* --- 1. HEADER SECTION (Mirip Screenshot) --- */
+      /* HEADER */
       .top-header {
         background: var(--surface); padding: 1.5rem;
         border-radius: 12px; box-shadow: var(--shadow-card);
         display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
         margin-bottom: 2.5rem; border: 1px solid var(--border);
       }
-
       .brand h1 { font-size: 1.5rem; margin: 0; font-weight: 800; color: var(--text-main); }
       .brand p { margin: 5px 0 0; color: var(--text-sec); font-size: 0.9rem; }
 
       .controls { display: flex; gap: 12px; align-items: center; }
-
-      /* Styling File Input Custom */
       .file-label {
         display: inline-flex; align-items: center; gap: 8px;
         background: white; border: 1px solid var(--border);
@@ -54,7 +55,6 @@
       .file-label:hover { border-color: var(--primary); color: var(--primary); }
       .file-label.uploaded { border-color: #10b981; color: #10b981; background: #ecfdf5; }
       #fileInput { display: none; }
-
       .btn-primary {
         background: var(--primary); color: white; border: none;
         padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
@@ -62,27 +62,24 @@
       }
       .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-      /* --- 2. HASIL DATA --- */
-      
-      /* Wrapper per Tanggal */
+      /* SECTIONS */
       .date-section { margin-bottom: 3rem; }
       
       .date-header-pill {
-        display: inline-block;
-        background: #1e293b; color: white; /* Hitam seperti screenshot */
+        display: inline-flex; align-items: center; gap: 8px;
+        background: #1e293b; color: white; 
         padding: 8px 20px; border-radius: 30px;
         font-weight: 700; font-size: 1rem;
         margin-bottom: 1.5rem;
       }
+      /* Style khusus header OTW */
+      .date-header-pill.otw {
+        background: #f97316; /* Orange */
+      }
 
-      /* Wrapper per Tipe Shipping (GROUPING BARU) */
       .shipping-group {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: var(--shadow-card);
+        background: white; border: 1px solid var(--border); border-radius: 16px;
+        padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-card);
       }
 
       .shipping-header {
@@ -92,14 +89,9 @@
       .shipping-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
       .shipping-count { background: var(--bg-body); color: var(--text-sec); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
 
-      /* Grid Kartu */
-      .card-grid {
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-        gap: 1rem;
-      }
+      .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
 
-      /* --- 3. DESAIN KARTU (Sesuai Screenshot 3) --- */
+      /* CARDS */
       .card {
         background: white; border: 1px solid var(--border); border-radius: 12px;
         padding: 1.25rem; position: relative;
@@ -108,7 +100,7 @@
       }
       .card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
 
-      /* Header Kartu: Teks "Antrean ke-" dan Lingkaran Nomor */
+      /* Card Top */
       .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
       .queue-label { font-size: 0.75rem; color: var(--text-sec); font-weight: 500; }
       
@@ -120,12 +112,21 @@
         font-weight: 700; font-size: 0.85rem;
       }
 
-      /* Plat Nomor Besar */
+      /* Style khusus kartu OTW */
+      .card.is-otw {
+        background: #fffaf5; border-color: var(--otw-border);
+      }
+      .card.is-otw:hover { border-color: #f97316; }
+      
+      .otw-badge {
+        padding: 4px 8px; background: #ffedd5; color: #c2410c; 
+        border-radius: 6px; font-size: 0.75rem; font-weight: 700;
+        display: flex; align-items: center; gap: 4px;
+      }
+
       .nopol { font-size: 1.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; margin-bottom: 6px; }
 
-      /* Footer Kartu: Tipe & Jam */
       .card-footer { display: flex; align-items: center; gap: 10px; margin-top: auto; }
-      
       .badge-type {
         background: var(--badge-bg); color: var(--badge-text);
         padding: 4px 8px; border-radius: 6px;
@@ -134,7 +135,6 @@
       
       .time-text { font-size: 0.85rem; color: var(--text-sec); font-weight: 500; display: flex; align-items: center; gap: 4px; }
 
-      /* Empty State */
       .empty-state { text-align: center; padding: 4rem; color: var(--text-sec); border: 2px dashed var(--border); border-radius: 12px; }
       .icon-upload { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.5; }
 
@@ -143,20 +143,17 @@
   <body>
 
     <div class="container">
-      
       <div class="top-header">
         <div class="brand">
           <h1>Dashboard Antrean</h1>
           <p>Sistem Manajemen Sortir Unit Masuk</p>
         </div>
-        
         <div class="controls">
           <label for="fileInput" class="file-label">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             <span id="fileName">Pilih File Excel...</span>
           </label>
           <input type="file" id="fileInput" accept=".csv, .xlsx" />
-          
           <button id="processButton" class="btn-primary">Proses Antrean</button>
         </div>
       </div>
@@ -168,14 +165,13 @@
            <p>Upload file Excel dengan kolom: <b>No. Polisi</b>, <b>Tipe Shipping</b>, dan <b>Confirm In</b>.</p>
         </div>
       </div>
-
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
-      // Icon Jam SVG
       const clockIcon = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+      const truckIcon = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 012-2v0a2 2 0 10-2 0v0z"></path></svg>`;
       
       let rawData = null;
 
@@ -186,7 +182,6 @@
         const processButton = document.getElementById("processButton");
         const resultArea = document.getElementById("resultArea");
 
-        // 1. Handle File Selection UI
         fileInput.addEventListener("change", (e) => {
            if(e.target.files.length > 0) {
               const name = e.target.files[0].name;
@@ -195,11 +190,9 @@
            }
         });
 
-        // 2. Handle Process Logic
         processButton.addEventListener("click", () => {
             const file = fileInput.files[0];
             if (!file) { alert("Harap pilih file Excel terlebih dahulu!"); return; }
-
             const reader = new FileReader();
             reader.onload = (e) => {
                 const data = new Uint8Array(e.target.result);
@@ -213,22 +206,28 @@
         function processAndRender(data) {
             if (!data || data.length === 0) return;
 
-            // A. Parsing Data
             const processed = data.map(row => {
-                const rawConfirm = row["Confirm In"] || "";
+                const rawConfirm = row["Confirm In"];
                 let dateStr = "Unknown";
                 let timeStr = "00:00";
                 let fullTimestamp = "";
+                let isOTW = false;
 
-                if (typeof rawConfirm === 'string') {
-                    // Coba format Spasi "2026-02-18 19:30"
+                // LOGIKA DETEKSI KOSONG / OTW
+                if (!rawConfirm || rawConfirm.toString().trim() === "") {
+                    dateStr = "🚧 Sedang Dalam Perjalanan"; // Nama Group Khusus
+                    timeStr = "Belum Tiba";
+                    isOTW = true;
+                    fullTimestamp = "9999-99-99"; // Agar selalu di paling bawah saat sorting
+                } 
+                else if (typeof rawConfirm === 'string') {
+                    // Parsing tanggal normal
                     let parts = rawConfirm.trim().split(" ");
                     if (parts.length >= 2) {
                         dateStr = parts[0]; 
                         timeStr = parts[1];
                         fullTimestamp = rawConfirm;
                     } 
-                    // Coba format Strip "2026-02-18-19:30"
                     else if (rawConfirm.includes("-") && rawConfirm.length > 10) {
                         dateStr = rawConfirm.substring(0, 10);
                         timeStr = rawConfirm.substring(11);
@@ -244,18 +243,20 @@
                     tipe: row["Tipe Shipping"] || "General",
                     dateKey: dateStr,
                     timeDisplay: timeStr,
-                    sortKey: fullTimestamp
+                    sortKey: fullTimestamp,
+                    isOTW: isOTW
                 };
             });
 
-            // B. Sorting Global (Tanggal -> Tipe -> Jam)
+            // Sorting Global
             processed.sort((a, b) => {
+                // Pastikan OTW selalu di paling bawah (karena sortKey 9999)
                 if (a.dateKey !== b.dateKey) return a.dateKey.localeCompare(b.dateKey);
                 if (a.tipe !== b.tipe) return a.tipe.localeCompare(b.tipe);
                 return a.sortKey.localeCompare(b.sortKey);
             });
 
-            // C. Grouping: Groups[Tanggal][Tipe] = [Array Cars]
+            // Grouping
             const groups = {};
             processed.forEach(item => {
                 if (!groups[item.dateKey]) groups[item.dateKey] = {};
@@ -263,64 +264,73 @@
                 groups[item.dateKey][item.tipe].push(item);
             });
 
-            // D. Rendering
+            // Rendering
             resultArea.innerHTML = "";
             const sortedDates = Object.keys(groups).sort();
 
             sortedDates.forEach(date => {
-                // 1. Buat Container Tanggal
                 const dateSection = document.createElement("div");
                 dateSection.className = "date-section";
 
-                // Header Tanggal (Pill Hitam seperti Screenshot)
-                const dateHeader = document.createElement("div");
-                dateHeader.innerHTML = `<span class="date-header-pill">${date}</span>`;
-                dateSection.appendChild(dateHeader);
+                // Jika grup OTW, warnanya beda (Orange)
+                const isOTWGroup = date.includes("Sedang Dalam Perjalanan");
+                const pillClass = isOTWGroup ? "date-header-pill otw" : "date-header-pill";
+                
+                dateSection.innerHTML = `<div class="${pillClass}">${date}</div>`;
 
-                // Loop Setiap Tipe Shipping di Tanggal tersebut
                 const typeGroups = groups[date];
                 const sortedTypes = Object.keys(typeGroups).sort();
 
                 sortedTypes.forEach(type => {
                     const cars = typeGroups[type];
-
-                    // 2. Buat Container Shipping Group (Kotak Putih Terpisah)
                     const shippingGroup = document.createElement("div");
                     shippingGroup.className = "shipping-group";
 
-                    // Header Tipe (misal: "🚚 Tipe 4D")
                     shippingGroup.innerHTML = `
                         <div class="shipping-header">
                             <div class="shipping-title">
-                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 012-2v0a2 2 0 10-2 0v0z"></path></svg>
-                                Tipe ${type}
+                                ${truckIcon} Tipe ${type}
                             </div>
                             <div class="shipping-count">${cars.length} Unit</div>
                         </div>
                     `;
 
-                    // Grid Kartu
                     const grid = document.createElement("div");
                     grid.className = "card-grid";
 
                     cars.forEach((car, index) => {
                         const card = document.createElement("div");
-                        card.className = "card";
-                        
-                        // LOGIKA PENTING: Rank di-reset per tipe shipping
                         const rank = index + 1;
-
-                        card.innerHTML = `
-                            <div class="card-top">
-                                <span class="queue-label">Antrean ke-${rank}</span>
-                                <div class="rank-circle">${rank}</div>
-                            </div>
-                            <div class="nopol">${car.nopol}</div>
-                            <div class="card-footer">
-                                <div class="badge-type">${car.tipe}</div>
-                                <div class="time-text">${clockIcon} ${car.timeDisplay}</div>
-                            </div>
-                        `;
+                        
+                        // Tampilan Kartu Berbeda jika OTW
+                        if (car.isOTW) {
+                            card.className = "card is-otw";
+                            card.innerHTML = `
+                                <div class="card-top">
+                                    <span class="queue-label" style="color:#c2410c">Status</span>
+                                    <div class="otw-badge">OTW</div>
+                                </div>
+                                <div class="nopol">${car.nopol}</div>
+                                <div class="card-footer">
+                                    <div class="badge-type">${car.tipe}</div>
+                                    <div class="time-text" style="color:#c2410c">${truckIcon} Perjalanan</div>
+                                </div>
+                            `;
+                        } else {
+                            // Tampilan Kartu Normal (Antrean)
+                            card.className = "card";
+                            card.innerHTML = `
+                                <div class="card-top">
+                                    <span class="queue-label">Antrean ke-</span>
+                                    <div class="rank-circle">${rank}</div>
+                                </div>
+                                <div class="nopol">${car.nopol}</div>
+                                <div class="card-footer">
+                                    <div class="badge-type">${car.tipe}</div>
+                                    <div class="time-text">${clockIcon} ${car.timeDisplay}</div>
+                                </div>
+                            `;
+                        }
                         grid.appendChild(card);
                     });
 

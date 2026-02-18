@@ -3,327 +3,428 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Antrean Modern</title>
+    <title>Dashboard Logistik Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-      /* --- PALET WARNA SOFT & MODERN --- */
       :root {
-        --primary-soft: #6366f1; 
-        --primary-wash: #eef2ff; 
-        --bg-main: #f8fafc; 
-        --bg-card: #ffffff; 
-        --text-dark: #334155; 
-        --text-medium: #64748b; 
-        --text-light: #94a3b8; 
-        --border-subtle: #f1f5f9; 
-        --shadow-soft: 0 10px 25px -5px rgba(99, 102, 241, 0.08), 0 8px 10px -6px rgba(99, 102, 241, 0.02);
-        --radius-md: 12px;
-        --radius-lg: 16px;
-        --accent-info: #3b82f6;
-        --bg-info: #eff6ff;
+        /* Palet Warna Professional (Indigo & Slate) */
+        --primary: #4f46e5;       /* Indigo 600 - Warna Brand Utama */
+        --primary-light: #e0e7ff; /* Indigo 100 - Untuk background aksen */
+        --bg-body: #f1f5f9;       /* Slate 100 - Background abu muda (Modern) */
+        --bg-surface: #ffffff;    /* Putih bersih untuk kartu */
+        
+        --text-main: #1e293b;     /* Slate 800 - Hitam pekat tapi lembut */
+        --text-sec: #64748b;      /* Slate 500 - Abu tua untuk label */
+        --border: #e2e8f0;        /* Slate 200 - Garis tipis */
+        
+        /* Shadow modern (halus & menyebar) */
+        --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        --shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
       }
+
+      * { box-sizing: border-box; }
 
       body {
         font-family: 'Inter', sans-serif;
-        background-color: var(--bg-main);
-        color: var(--text-dark);
-        padding: 30px;
+        background-color: --bg-body;
+        background: #f8fafc;
+        color: var(--text-main);
         margin: 0;
-        line-height: 1.5;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
       }
 
-      /* Icons */
-      .icon { width: 20px; height: 20px; stroke-width: 1.8; color: var(--text-medium); }
-      .icon-primary { color: var(--primary-soft); }
+      /* --- LAYOUT UTAMA --- */
+      .app-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
 
-      .container { max-width: 1100px; margin: 0 auto; }
-
-      /* Header */
-      .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-      h1 { font-weight: 700; font-size: 1.75rem; color: var(--text-dark); margin: 0; letter-spacing: -0.025em; }
-      #currentDate { font-weight: 500; color: var(--text-medium); }
-
-      /* --- USER GUIDE SECTION (BARU) --- */
-      .guide-wrapper {
-        background: var(--bg-card);
-        border-radius: var(--radius-lg);
-        padding: 1.5rem;
+      /* --- HEADER DASHBOARD --- */
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 2rem;
-        box-shadow: var(--shadow-soft);
-        border: 1px solid var(--border-subtle);
       }
-
-      .guide-title {
-        font-size: 1rem;
+      
+      .brand-title {
+        font-size: 1.5rem;
         font-weight: 700;
-        color: var(--text-dark);
-        margin-bottom: 1rem;
+        color: var(--text-main);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.75rem;
       }
-
-      .guide-steps {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .step-item {
+      
+      /* Tombol Upload & Kontrol */
+      .controls {
         display: flex;
-        align-items: flex-start;
-        gap: 12px;
+        gap: 1rem;
       }
+      
+      .btn-primary {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+      }
+      .btn-primary:hover { background-color: #4338ca; transform: translateY(-1px); }
 
-      .step-number {
-        background: var(--primary-wash);
-        color: var(--primary-soft);
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
+      .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+      }
+      
+      .file-input-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+      
+      .btn-outline {
+        background-color: white;
+        color: var(--text-main);
+        border: 1px solid var(--border);
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+      /* --- STATS SUMMARY (Baris Ringkasan) --- */
+      .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .stat-card {
+        background: white;
+        padding: 1.25rem;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-card);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .stat-icon {
+        width: 48px; height: 48px;
+        background: var(--primary-light);
+        color: var(--primary);
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 700;
-        font-size: 0.85rem;
-        flex-shrink: 0;
+      }
+      .stat-info h3 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+      .stat-info p { margin: 0; color: var(--text-sec); font-size: 0.85rem; }
+
+      /* --- SECTION PER KATEGORI (GROUP) --- */
+      .group-section {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        overflow: hidden; /* Agar sudut rounded tetap rapi */
+        box-shadow: var(--shadow-card);
       }
 
-      .step-content h4 { margin: 0 0 4px 0; font-size: 0.95rem; font-weight: 600; }
-      .step-content p { margin: 0; font-size: 0.85rem; color: var(--text-medium); }
-      
-      .code-badge {
-        background: var(--bg-main);
-        border: 1px solid var(--border-subtle);
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-family: monospace;
-        color: var(--primary-soft);
-        font-size: 0.8em;
-      }
-
-      /* --- CONTROLS --- */
-      .controls-wrapper {
-        background: var(--bg-card);
-        padding: 1.5rem;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-soft);
-        margin-bottom: 3rem;
+      /* Header per Group (Misal: 4Q, 4R) */
+      .group-header {
+        background-color: #fff;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--border);
         display: flex;
-        gap: 1rem;
+        justify-content: space-between;
         align-items: center;
-        flex-wrap: wrap;
-        border: 1px solid var(--border-subtle);
-      }
-
-      input[type="file"] {
-        padding: 10px;
-        border: 1px solid #e2e8f0;
-        border-radius: var(--radius-md);
-        background: var(--bg-main);
-        color: var(--text-medium);
-        font-size: 0.9rem;
-        flex-grow: 1;
       }
       
-      button#processButton {
-        background-color: var(--primary-soft);
-        color: white; border: none; padding: 12px 24px;
-        border-radius: var(--radius-md); cursor: pointer; font-weight: 600;
-        transition: all 0.2s ease;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+      .group-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
-      button#processButton:hover { background-color: #4f46e5; transform: translateY(-1px); }
 
-      /* --- RESULTS --- */
-      .date-section { margin-bottom: 3rem; }
-      .date-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-subtle); }
-      .date-header h2 { font-size: 1.25rem; font-weight: 600; color: var(--text-dark); margin: 0; }
+      .badge-pill {
+        background-color: var(--bg-body);
+        color: var(--text-sec);
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-weight: 600;
+        border: 1px solid var(--border);
+      }
+
+      /* Kontainer Grid Kartu */
+      .cards-grid {
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+        background-color: #fafafa; /* Sedikit beda dari putih header */
+      }
+
+      /* --- KARTU MOBIL (Unit Card) --- */
+      .unit-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .unit-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--primary);
+      }
+
+      /* Garis indikator di atas kartu */
+      .unit-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%;
+        height: 3px;
+        background: var(--primary);
+        opacity: 0.8;
+      }
+
+      .card-plate {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.5px;
+      }
+
+      .card-time {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        color: var(--text-sec);
+        background: var(--bg-body);
+        padding: 6px 10px;
+        border-radius: 6px;
+        width: fit-content;
+      }
       
-      .shipping-section { margin-bottom: 2rem; padding-left: 1rem; }
-      .shipping-title { font-size: 1rem; font-weight: 600; color: var(--text-medium); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-      .badge-count { background-color: var(--primary-wash); color: var(--primary-soft); font-size: 0.75rem; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
-
-      .horizontal-queue { display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px; }
-
-      .car-card {
-        background: var(--bg-card); border: 1px solid var(--border-subtle);
-        border-radius: var(--radius-lg); padding: 16px; width: 140px;
-        box-shadow: var(--shadow-soft); display: flex; flex-direction: column;
-        transition: all 0.3s ease; position: relative; overflow: hidden;
+      /* Helper Class */
+      .hidden { display: none; }
+      .message-box {
+        text-align: center; padding: 3rem; color: var(--text-sec);
+        border: 2px dashed var(--border); border-radius: 12px; margin-top: 2rem;
       }
-      .car-card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.15); border-color: var(--primary-wash); }
-      .car-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--primary-soft); opacity: 0.7; }
-
-      .nopol { font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; letter-spacing: -0.03em; line-height: 1.2; }
-      .waktu-info { font-size: 0.85rem; color: var(--text-medium); display: flex; align-items: center; gap: 6px; font-weight: 500; }
-
-      .message-box { padding: 1rem; background: #fee2e2; color: #b91c1c; border-radius: var(--radius-md); margin-bottom: 2rem; display: none; border: 1px solid #fecaca; }
+      
+      /* Icons SVG Styling */
+      .icon-sm { width: 16px; height: 16px; stroke-width: 2; }
+      .icon-md { width: 24px; height: 24px; stroke-width: 2; }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="header-flex">
-          <h1>Antrean Masuk</h1>
-          <p id="currentDate"></p>
-      </div>
 
-      <div class="guide-wrapper">
-        <div class="guide-title">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon icon-primary">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Panduan Penggunaan
-        </div>
-        <div class="guide-steps">
-            <div class="step-item">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h4>Siapkan File</h4>
-                    <p>Gunakan file Excel (.xlsx) atau CSV yang berisi data kendaraan.</p>
-                </div>
-            </div>
-            <div class="step-item">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h4>Cek Judul Kolom</h4>
-                    <p>Pastikan ada kolom: <span class="code-badge">No. Polisi</span>, <span class="code-badge">Tipe Shipping</span>, dan <span class="code-badge">Confirm In</span>.</p>
-                </div>
-            </div>
-            <div class="step-item">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h4>Proses</h4>
-                    <p>Upload file di bawah dan klik tombol "Proses" untuk melihat dashboard.</p>
-                </div>
-            </div>
-        </div>
-      </div>
+    <div class="app-container">
       
-      <div class="controls-wrapper">
-        <input type="file" id="fileInput" accept=".csv, .xlsx" />
-        <button id="processButton">Proses Data Antrean</button>
+      <div class="top-bar">
+        <div class="brand-title">
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-md" style="color:var(--primary)">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0c0-.621.351-1.173.882-1.428L7.5 12.39a1.5 1.5 0 011.406-.99h6.313a1.5 1.5 0 011.406.99l1.368 4.932a1.5 1.5 0 01.882 1.428 1.5 1.5 0 01-3 0M16.5 13.5h-4.5m4.5 0v4.5m0-4.5L19.5 19.5M3 19.5l1.5-6.75a2.25 2.25 0 012.187-1.75h9.476a2.25 2.25 0 012.187 1.75l1.5 6.75M3 19.5h18" />
+           </svg>
+           Fleet Monitor
+        </div>
+
+        <div class="controls">
+          <div class="file-input-wrapper btn-outline">
+            <span>📂 Pilih File Excel</span>
+            <input type="file" id="fileInput" accept=".csv, .xlsx" />
+          </div>
+          <button id="processButton" class="btn-primary">Muat Data</button>
+        </div>
       </div>
 
-      <div id="messageBox" class="message-box"></div>
+      <div id="statsBar" class="stats-bar hidden">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-md">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0c0-.621.351-1.173.882-1.428L7.5 12.39a1.5 1.5 0 011.406-.99h6.313a1.5 1.5 0 011.406.99l1.368 4.932a1.5 1.5 0 01.882 1.428 1.5 1.5 0 01-3 0M16.5 13.5h-4.5m4.5 0v4.5m0-4.5L19.5 19.5M3 19.5l1.5-6.75a2.25 2.25 0 012.187-1.75h9.476a2.25 2.25 0 012.187 1.75l1.5 6.75M3 19.5h18" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalUnits">0</h3>
+            <p>Total Unit</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-md">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalGroups">0</h3>
+            <p>Kategori</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="emptyState" class="message-box">
+        <p>Silakan upload file Excel (.xlsx) untuk melihat data antrean.</p>
+        <p style="font-size: 0.85rem; margin-top: 10px; opacity: 0.7;">Pastikan ada kolom: "No. Polisi", "Tipe Shipping", "Confirm In"</p>
+      </div>
+
       <div id="resultArea"></div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
-      // Icons SVG
-      const icons = {
-          calendar: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon icon-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>`,
-          truck: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon icon-primary"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0c0-.621.351-1.173.882-1.428L7.5 12.39a1.5 1.5 0 011.406-.99h6.313a1.5 1.5 0 011.406.99l1.368 4.932a1.5 1.5 0 01.882 1.428 1.5 1.5 0 01-3 0M16.5 13.5h-4.5m4.5 0v4.5m0-4.5L19.5 19.5M3 19.5l1.5-6.75a2.25 2.25 0 012.187-1.75h9.476a2.25 2.25 0 012.187 1.75l1.5 6.75M3 19.5h18" /></svg>`,
-          clock: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-sm icon-primary" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
-      };
-
       let rawData = null;
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const today = new Date();
-        document.getElementById("currentDate").textContent = today.toLocaleDateString("id-ID", {
-          weekday: "long", year: "numeric", month: "long", day: "numeric"
-        });
+      // Icons SVG String untuk dipanggil di JS
+      const clockIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-sm"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
 
+      document.addEventListener("DOMContentLoaded", () => {
         const fileInput = document.getElementById("fileInput");
         const processButton = document.getElementById("processButton");
         const resultArea = document.getElementById("resultArea");
-        const messageBox = document.getElementById("messageBox");
+        const emptyState = document.getElementById("emptyState");
+        const statsBar = document.getElementById("statsBar");
+
+        // UI Helpers
+        const updateFileName = (name) => {
+            const span = document.querySelector('.file-input-wrapper span');
+            span.textContent = name ? `📄 ${name}` : '📂 Pilih File Excel';
+            span.style.color = name ? 'var(--primary)' : 'inherit';
+        }
 
         fileInput.addEventListener("change", (e) => {
           const file = e.target.files[0];
           if (!file) return;
+          updateFileName(file.name);
+          
           const reader = new FileReader();
           reader.onload = (e) => {
             const data = new Uint8Array(e.target.result);
             const workbook = XLSX.read(data, { type: "array" });
             rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-            resultArea.innerHTML = '<p style="color: var(--text-medium); text-align:center;">File siap. Klik tombol proses.</p>';
           };
           reader.readAsArrayBuffer(file);
         });
 
         processButton.addEventListener("click", () => {
-          if (!rawData) {
-            messageBox.style.display = "block"; messageBox.textContent = "Silakan pilih file terlebih dahulu."; return;
-          }
-          messageBox.style.display = "none";
-
+          if (!rawData) { alert("Pilih file dulu!"); return; }
+          
+          emptyState.style.display = 'none';
+          statsBar.classList.remove('hidden');
+          
+          // 1. Bersihkan Data
           const processed = rawData.map(row => {
-            const rawConfirm = row["Confirm In"];
+            const rawConfirm = row["Confirm In"] || "";
             let date = "-", time = "-";
-            if (rawConfirm && typeof rawConfirm === 'string') {
-              let parts = rawConfirm.trim().split(" ");
-              if (parts.length > 1) { date = parts[0]; time = parts.slice(1).join(" "); } 
-              else {
-                 parts = rawConfirm.split("-");
-                 if(parts.length > 3) { date = `${parts[0]}-${parts[1]}-${parts[2]}`; time = parts.slice(3).join(":"); } 
-                 else { date = rawConfirm; }
-              }
+            
+            // Logika Parsing Waktu Sederhana
+            if (typeof rawConfirm === 'string') {
+               const parts = rawConfirm.trim().split(" "); // Asumsi "2023-10-10 14:00"
+               if (parts.length > 1) {
+                   date = parts[0]; 
+                   time = parts.slice(1).join(" "); 
+               } else {
+                   date = rawConfirm;
+               }
             }
-            return { nopol: row["No. Polisi"] || "No Plate", tipe: row["Tipe Shipping"] || "Lainnya", tanggal: date, jam: time };
+            
+            return {
+              nopol: row["No. Polisi"] || "Unknown",
+              tipe: row["Tipe Shipping"] || "Uncategorized", // Kolom Pengelompokan (4Q, 4R, dll)
+              tanggal: date,
+              jam: time
+            };
           });
 
+          // 2. Sorting
           processed.sort((a, b) => {
-             if (a.tanggal !== b.tanggal) return a.tanggal.localeCompare(b.tanggal);
+             // Sort by Tipe first, then Time
              if (a.tipe !== b.tipe) return a.tipe.localeCompare(b.tipe);
              return a.jam.localeCompare(b.jam);
           });
 
-          renderModernLayout(processed);
+          renderProfessionalLayout(processed);
         });
 
-        function renderModernLayout(data) {
+        function renderProfessionalLayout(data) {
           resultArea.innerHTML = "";
-          if (data.length === 0) {
-            resultArea.innerHTML = "<p style='text-align:center; color:var(--text-light)'>Data kosong.</p>"; 
-            return;
-          }
-
+          
+          // Grouping Data by TIPE (Contoh: 4Q, 4R, 6D)
           const groups = {};
           data.forEach(item => {
-            if (!groups[item.tanggal]) groups[item.tanggal] = {};
-            if (!groups[item.tanggal][item.tipe]) groups[item.tanggal][item.tipe] = [];
-            groups[item.tanggal][item.tipe].push(item);
+            if (!groups[item.tipe]) groups[item.tipe] = [];
+            groups[item.tipe].push(item);
           });
 
-          for (const [tgl, tipeGroups] of Object.entries(groups)) {
-            const dateSection = document.createElement("div");
-            dateSection.className = "date-section";
+          // Update Stats
+          document.getElementById('totalUnits').textContent = data.length;
+          document.getElementById('totalGroups').textContent = Object.keys(groups).length;
+
+          // Render DOM
+          // Kita loop per Kategori (Tipe Shipping)
+          for (const [groupName, items] of Object.entries(groups)) {
             
-            dateSection.innerHTML = `<div class="date-header">${icons.calendar}<h2>${tgl}</h2></div>`;
+            // 1. Container Section
+            const section = document.createElement("div");
+            section.className = "group-section";
 
-            for (const [tipe, items] of Object.entries(tipeGroups)) {
-               const shippingSection = document.createElement("div");
-               shippingSection.className = "shipping-section";
+            // 2. Header Group (Nama Tipe + Jumlah)
+            const header = document.createElement("div");
+            header.className = "group-header";
+            header.innerHTML = `
+                <div class="group-title">
+                    <span>${groupName}</span>
+                </div>
+                <div class="badge-pill">${items.length} Unit</div>
+            `;
+            
+            // 3. Grid Kartu
+            const grid = document.createElement("div");
+            grid.className = "cards-grid";
 
-               shippingSection.innerHTML = `
-                    <div class="shipping-title">
-                        ${icons.truck}
-                        <span>${tipe}</span>
-                        <span class="badge-count">${items.length}</span>
-                    </div>`;
+            items.forEach(mobil => {
+                const card = document.createElement("div");
+                card.className = "unit-card";
+                card.innerHTML = `
+                    <div class="card-plate">${mobil.nopol}</div>
+                    <div class="card-time">
+                        ${clockIcon} ${mobil.jam}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
 
-               const queueContainer = document.createElement("div");
-               queueContainer.className = "horizontal-queue";
-
-               items.forEach(mobil => {
-                 const card = document.createElement("div");
-                 card.className = "car-card";
-                 card.innerHTML = `
-                    <div class="nopol">${mobil.nopol}</div>
-                    <div class="waktu-info">${icons.clock} <span>${mobil.jam}</span></div>
-                 `;
-                 queueContainer.appendChild(card);
-               });
-
-               shippingSection.appendChild(queueContainer);
-               dateSection.appendChild(shippingSection);
-            }
-            resultArea.appendChild(dateSection);
+            section.appendChild(header);
+            section.appendChild(grid);
+            resultArea.appendChild(section);
           }
         }
       });

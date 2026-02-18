@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Antrean Logistik</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
       :root {
         --primary: #2563eb;       
@@ -15,32 +13,32 @@
         --text-main: #1e293b;
         --text-sec: #64748b;
         --border: #e2e8f0;
-        
         --badge-bg: #eff6ff; 
         --badge-text: #2563eb;
-
-        /* Warna Khusus OTW */
         --otw-bg: #fff7ed;
         --otw-text: #c2410c;
         --otw-border: #fed7aa;
-
-        --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       }
 
       * { box-sizing: border-box; }
+      
       body {
-        font-family: 'Inter', sans-serif; background: var(--bg-body);
-        color: var(--text-main); margin: 0; padding: 2rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+        background-color: #f8fafc; /* Fallback color */
+        background-color: var(--bg-body);
+        color: #1e293b;
+        margin: 0; padding: 2rem;
       }
 
       .container { max-width: 1280px; margin: 0 auto; }
 
       /* HEADER */
       .top-header {
-        background: var(--surface); padding: 1.5rem;
-        border-radius: 12px; box-shadow: var(--shadow-card);
+        background: white; padding: 1.5rem;
+        border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-        margin-bottom: 2.5rem; border: 1px solid var(--border);
+        margin-bottom: 2.5rem; border: 1px solid #e2e8f0;
       }
       .brand h1 { font-size: 1.5rem; margin: 0; font-weight: 800; color: var(--text-main); }
       .brand p { margin: 5px 0 0; color: var(--text-sec); font-size: 0.9rem; }
@@ -72,10 +70,7 @@
         font-weight: 700; font-size: 1rem;
         margin-bottom: 1.5rem;
       }
-      /* Style khusus header OTW */
-      .date-header-pill.otw {
-        background: #f97316; /* Orange */
-      }
+      .date-header-pill.otw { background: #f97316; }
 
       .shipping-group {
         background: white; border: 1px solid var(--border); border-radius: 16px;
@@ -100,7 +95,6 @@
       }
       .card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
 
-      /* Card Top */
       .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
       .queue-label { font-size: 0.75rem; color: var(--text-sec); font-weight: 500; }
       
@@ -112,10 +106,7 @@
         font-weight: 700; font-size: 0.85rem;
       }
 
-      /* Style khusus kartu OTW */
-      .card.is-otw {
-        background: #fffaf5; border-color: var(--otw-border);
-      }
+      .card.is-otw { background: #fffaf5; border-color: var(--otw-border); }
       .card.is-otw:hover { border-color: #f97316; }
       
       .otw-badge {
@@ -138,11 +129,19 @@
       .empty-state { text-align: center; padding: 4rem; color: var(--text-sec); border: 2px dashed var(--border); border-radius: 12px; }
       .icon-upload { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.5; }
 
-    </script>
+      /* ERROR MESSAGE */
+      #error-banner {
+        display: none; background: #fee2e2; color: #b91c1c; padding: 1rem;
+        border-radius: 8px; margin-bottom: 1rem; border: 1px solid #f87171;
+        text-align: center; font-weight: 600;
+      }
+    </style>
   </head>
   <body>
 
     <div class="container">
+      <div id="error-banner"></div>
+
       <div class="top-header">
         <div class="brand">
           <h1>Dashboard Antrean</h1>
@@ -167,15 +166,27 @@
       </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" onerror="handleScriptError()"></script>
 
     <script>
+      // Fungsi jika library gagal dimuat (Internet error)
+      function handleScriptError() {
+        const banner = document.getElementById('error-banner');
+        banner.style.display = 'block';
+        banner.innerHTML = "⚠️ Gagal memuat library Excel. Cek koneksi internet Anda atau pastikan firewall tidak memblokir cdnjs.cloudflare.com";
+      }
+
       const clockIcon = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
       const truckIcon = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 012-2v0a2 2 0 10-2 0v0z"></path></svg>`;
       
       let rawData = null;
 
       document.addEventListener("DOMContentLoaded", () => {
+        // Cek apakah XLSX berhasil di load
+        if (typeof XLSX === 'undefined') {
+            handleScriptError();
+        }
+
         const fileInput = document.getElementById("fileInput");
         const fileNameSpan = document.getElementById("fileName");
         const fileLabel = document.querySelector(".file-label");
@@ -191,14 +202,24 @@
         });
 
         processButton.addEventListener("click", () => {
+            if (typeof XLSX === 'undefined') {
+                alert("Sistem belum siap karena library Excel gagal dimuat. Cek internet.");
+                return;
+            }
+
             const file = fileInput.files[0];
             if (!file) { alert("Harap pilih file Excel terlebih dahulu!"); return; }
             const reader = new FileReader();
             reader.onload = (e) => {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: "array" });
-                rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                processAndRender(rawData);
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: "array" });
+                    rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                    processAndRender(rawData);
+                } catch (err) {
+                    alert("Gagal membaca file! Pastikan format file benar.");
+                    console.error(err);
+                }
             };
             reader.readAsArrayBuffer(file);
         });
@@ -218,7 +239,7 @@
                     dateStr = "🚧 Sedang Dalam Perjalanan"; // Nama Group Khusus
                     timeStr = "Belum Tiba";
                     isOTW = true;
-                    fullTimestamp = "9999-99-99"; // Agar selalu di paling bawah saat sorting
+                    fullTimestamp = "9999-99-99"; 
                 } 
                 else if (typeof rawConfirm === 'string') {
                     // Parsing tanggal normal
@@ -250,7 +271,6 @@
 
             // Sorting Global
             processed.sort((a, b) => {
-                // Pastikan OTW selalu di paling bawah (karena sortKey 9999)
                 if (a.dateKey !== b.dateKey) return a.dateKey.localeCompare(b.dateKey);
                 if (a.tipe !== b.tipe) return a.tipe.localeCompare(b.tipe);
                 return a.sortKey.localeCompare(b.sortKey);
@@ -272,7 +292,6 @@
                 const dateSection = document.createElement("div");
                 dateSection.className = "date-section";
 
-                // Jika grup OTW, warnanya beda (Orange)
                 const isOTWGroup = date.includes("Sedang Dalam Perjalanan");
                 const pillClass = isOTWGroup ? "date-header-pill otw" : "date-header-pill";
                 
@@ -302,7 +321,6 @@
                         const card = document.createElement("div");
                         const rank = index + 1;
                         
-                        // Tampilan Kartu Berbeda jika OTW
                         if (car.isOTW) {
                             card.className = "card is-otw";
                             card.innerHTML = `
@@ -317,7 +335,6 @@
                                 </div>
                             `;
                         } else {
-                            // Tampilan Kartu Normal (Antrean)
                             card.className = "card";
                             card.innerHTML = `
                                 <div class="card-top">

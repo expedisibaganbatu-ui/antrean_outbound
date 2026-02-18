@@ -3,154 +3,169 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Antrean Logistik v3.0</title>
+    <title>Dashboard Antrean Logistik</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
       :root {
-        --primary: #2563eb;       /* Biru Royal */
-        --bg-body: #f1f5f9;       /* Abu Muda */
-        --surface: #ffffff;       /* Putih */
-        --text-main: #1e293b;     /* Hitam Slate */
-        --text-sec: #64748b;      /* Abu Slate */
-        --border: #e2e8f0;        /* Garis Halus */
+        --primary: #2563eb;       /* Biru sesuai screenshot */
+        --primary-dark: #1d4ed8;
+        --bg-body: #f8fafc;       /* Latar Abu Sangat Muda */
+        --surface: #ffffff;
+        --text-main: #1e293b;
+        --text-sec: #64748b;
+        --border: #e2e8f0;
         
-        /* Warna Badge Tipe */
-        --bg-badge: #eff6ff; 
-        --text-badge: #2563eb;
-        
-        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        /* Warna Badge Tipe di dalam kartu */
+        --badge-bg: #eff6ff; 
+        --badge-text: #2563eb;
+
+        --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       }
 
       * { box-sizing: border-box; }
       body {
         font-family: 'Inter', sans-serif; background: var(--bg-body);
-        color: var(--text-main); margin: 0; padding: 20px;
+        color: var(--text-main); margin: 0; padding: 2rem;
       }
 
-      .container { max-width: 1200px; margin: 0 auto; }
+      .container { max-width: 1280px; margin: 0 auto; }
 
-      /* --- HEADER & CONTROLS --- */
-      .top-bar {
+      /* --- 1. HEADER SECTION (Mirip Screenshot) --- */
+      .top-header {
         background: var(--surface); padding: 1.5rem;
-        border-radius: 16px; box-shadow: var(--shadow);
-        display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;
-        margin-bottom: 2rem;
+        border-radius: 12px; box-shadow: var(--shadow-card);
+        display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+        margin-bottom: 2.5rem; border: 1px solid var(--border);
       }
 
-      .brand h1 { font-size: 1.5rem; margin: 0; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
-      .brand p { margin: 0; color: var(--text-sec); font-size: 0.9rem; }
+      .brand h1 { font-size: 1.5rem; margin: 0; font-weight: 800; color: var(--text-main); }
+      .brand p { margin: 5px 0 0; color: var(--text-sec); font-size: 0.9rem; }
 
-      .controls { display: flex; gap: 10px; }
-      .btn {
-        padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: 0.2s;
+      .controls { display: flex; gap: 12px; align-items: center; }
+
+      /* Styling File Input Custom */
+      .file-label {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: white; border: 1px solid var(--border);
+        padding: 10px 16px; border-radius: 8px; font-weight: 500; color: var(--text-sec);
+        font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
       }
-      .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-      .btn-primary:hover { transform: translateY(-2px); background: #1d4ed8; }
+      .file-label:hover { border-color: var(--primary); color: var(--primary); }
+      .file-label.uploaded { border-color: #10b981; color: #10b981; background: #ecfdf5; }
+      #fileInput { display: none; }
+
+      .btn-primary {
+        background: var(--primary); color: white; border: none;
+        padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+        cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      }
+      .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+      /* --- 2. HASIL DATA --- */
       
-      .file-wrapper { position: relative; overflow: hidden; display: inline-block; }
-      .file-wrapper input { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-      .btn-outline { background: white; border: 1px solid var(--border); color: var(--text-main); }
-      .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-
-      /* --- DATE GROUP --- */
+      /* Wrapper per Tanggal */
       .date-section { margin-bottom: 3rem; }
       
-      .date-header { 
-        display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem;
-        position: sticky; top: 10px; z-index: 10; /* Sticky Header */
-      }
-      
-      .date-pill {
-        background: var(--text-main); color: white;
-        padding: 8px 16px; border-radius: 30px;
+      .date-header-pill {
+        display: inline-block;
+        background: #1e293b; color: white; /* Hitam seperti screenshot */
+        padding: 8px 20px; border-radius: 30px;
         font-weight: 700; font-size: 1rem;
-        box-shadow: var(--shadow);
-      }
-      
-      .date-line { flex-grow: 1; height: 2px; background: var(--border); }
-
-      /* --- CARDS GRID --- */
-      .queue-list {
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-        gap: 1.25rem;
+        margin-bottom: 1.5rem;
       }
 
-      .card {
-        background: var(--surface); border-radius: 12px;
+      /* Wrapper per Tipe Shipping (GROUPING BARU) */
+      .shipping-group {
+        background: white;
         border: 1px solid var(--border);
-        padding: 1.25rem;
-        position: relative; overflow: hidden;
-        transition: transform 0.2s, box-shadow 0.2s;
-        display: flex; flex-direction: column; gap: 8px;
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-card);
       }
-      .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary); }
 
-      /* Nomor Urut (Ranking) */
+      .shipping-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;
+      }
+      .shipping-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+      .shipping-count { background: var(--bg-body); color: var(--text-sec); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+
+      /* Grid Kartu */
+      .card-grid {
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+        gap: 1rem;
+      }
+
+      /* --- 3. DESAIN KARTU (Sesuai Screenshot 3) --- */
+      .card {
+        background: white; border: 1px solid var(--border); border-radius: 12px;
+        padding: 1.25rem; position: relative;
+        display: flex; flex-direction: column; gap: 6px;
+        transition: transform 0.2s, border-color 0.2s;
+      }
+      .card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+
+      /* Header Kartu: Teks "Antrean ke-" dan Lingkaran Nomor */
+      .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+      .queue-label { font-size: 0.75rem; color: var(--text-sec); font-weight: 500; }
+      
       .rank-circle {
-        position: absolute; top: 10px; right: 10px;
-        width: 32px; height: 32px;
+        width: 28px; height: 28px;
         background: var(--primary); color: white;
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        font-weight: 700; font-size: 0.9rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        font-weight: 700; font-size: 0.85rem;
       }
 
-      .nopol { font-size: 1.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+      /* Plat Nomor Besar */
+      .nopol { font-size: 1.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; margin-bottom: 6px; }
+
+      /* Footer Kartu: Tipe & Jam */
+      .card-footer { display: flex; align-items: center; gap: 10px; margin-top: auto; }
       
-      .meta-info {
-        display: flex; align-items: center; gap: 10px; margin-top: 4px;
-      }
-
-      /* Badge Tipe Shipping */
       .badge-type {
-        background: var(--bg-badge); color: var(--text-badge);
-        padding: 4px 10px; border-radius: 6px;
+        background: var(--badge-bg); color: var(--badge-text);
+        padding: 4px 8px; border-radius: 6px;
         font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-        border: 1px solid #dbeafe;
       }
+      
+      .time-text { font-size: 0.85rem; color: var(--text-sec); font-weight: 500; display: flex; align-items: center; gap: 4px; }
 
-      /* Waktu */
-      .time-display {
-        display: flex; align-items: center; gap: 6px;
-        color: var(--text-sec); font-size: 0.9rem; font-weight: 500;
-      }
+      /* Empty State */
+      .empty-state { text-align: center; padding: 4rem; color: var(--text-sec); border: 2px dashed var(--border); border-radius: 12px; }
+      .icon-upload { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.5; }
 
-      .empty-state {
-        text-align: center; padding: 4rem; color: var(--text-sec);
-        border: 2px dashed var(--border); border-radius: 16px;
-        background: rgba(255,255,255,0.5);
-      }
-
-      .helper-text { font-size: 0.8rem; color: var(--text-sec); margin-top: 5px; }
-
-    </style>
+    </script>
   </head>
   <body>
 
     <div class="container">
       
-      <div class="top-bar">
+      <div class="top-header">
         <div class="brand">
           <h1>Dashboard Antrean</h1>
           <p>Sistem Manajemen Sortir Unit Masuk</p>
         </div>
         
         <div class="controls">
-          <div class="file-wrapper">
-            <button class="btn btn-outline">📂 Pilih File Excel</button>
-            <input type="file" id="fileInput" accept=".csv, .xlsx" />
-          </div>
-          <button id="processButton" class="btn btn-primary">Proses Antrean</button>
+          <label for="fileInput" class="file-label">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span id="fileName">Pilih File Excel...</span>
+          </label>
+          <input type="file" id="fileInput" accept=".csv, .xlsx" />
+          
+          <button id="processButton" class="btn-primary">Proses Antrean</button>
         </div>
       </div>
 
       <div id="resultArea">
         <div class="empty-state">
-           <h3>Belum ada data</h3>
-           <p>Silakan upload file Excel (.xlsx) yang berisi kolom: <br><b>"No. Polisi"</b>, <b>"Tipe Shipping"</b>, dan <b>"Confirm In"</b>.</p>
+           <svg class="icon-upload" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+           <h3>Siap Memuat Data</h3>
+           <p>Upload file Excel dengan kolom: <b>No. Polisi</b>, <b>Tipe Shipping</b>, dan <b>Confirm In</b>.</p>
         </div>
       </div>
 
@@ -159,141 +174,161 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script>
+      // Icon Jam SVG
+      const clockIcon = `<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+      
       let rawData = null;
-
-      // Icon SVG
-      const clockIcon = `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
       document.addEventListener("DOMContentLoaded", () => {
         const fileInput = document.getElementById("fileInput");
+        const fileNameSpan = document.getElementById("fileName");
+        const fileLabel = document.querySelector(".file-label");
         const processButton = document.getElementById("processButton");
         const resultArea = document.getElementById("resultArea");
 
-        // UI Update saat file dipilih
+        // 1. Handle File Selection UI
         fileInput.addEventListener("change", (e) => {
            if(e.target.files.length > 0) {
-              document.querySelector('.btn-outline').innerText = "✅ " + e.target.files[0].name;
-              document.querySelector('.btn-outline').style.borderColor = "var(--primary)";
-              document.querySelector('.btn-outline').style.color = "var(--primary)";
+              const name = e.target.files[0].name;
+              fileNameSpan.textContent = name;
+              fileLabel.classList.add("uploaded");
            }
         });
 
+        // 2. Handle Process Logic
         processButton.addEventListener("click", () => {
             const file = fileInput.files[0];
-            if (!file) { alert("Pilih file dulu!"); return; }
+            if (!file) { alert("Harap pilih file Excel terlebih dahulu!"); return; }
 
             const reader = new FileReader();
             reader.onload = (e) => {
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, { type: "array" });
                 rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                processQueueData(rawData);
+                processAndRender(rawData);
             };
             reader.readAsArrayBuffer(file);
         });
 
-        function processQueueData(data) {
+        function processAndRender(data) {
             if (!data || data.length === 0) return;
 
-            // 1. Parsing & Normalisasi Data
+            // A. Parsing Data
             const processed = data.map(row => {
-                const rawConfirm = row["Confirm In"];
-                let dateStr = "Unknown Date";
+                const rawConfirm = row["Confirm In"] || "";
+                let dateStr = "Unknown";
                 let timeStr = "00:00";
-                let fullTimestamp = ""; // Untuk sorting presisi
+                let fullTimestamp = "";
 
-                // Logika Parsing Waktu yang Kuat
                 if (typeof rawConfirm === 'string') {
-                    // Coba pisahkan berdasarkan Spasi (Format: YYYY-MM-DD HH:MM:SS)
+                    // Coba format Spasi "2026-02-18 19:30"
                     let parts = rawConfirm.trim().split(" ");
                     if (parts.length >= 2) {
-                        dateStr = parts[0]; // Ambil Tanggal Saja
-                        timeStr = parts[1]; // Ambil Jam Saja
+                        dateStr = parts[0]; 
+                        timeStr = parts[1];
                         fullTimestamp = rawConfirm;
                     } 
-                    // Coba pisahkan berdasarkan Strip (Kasus gambar user: 2026-02-18-19:36:38)
-                    else if (rawConfirm.includes("-")) {
-                        // Asumsi format kacau user: YYYY-MM-DD-HH:MM:SS
-                        // Kita ambil 10 karakter pertama sebagai tanggal
-                        dateStr = rawConfirm.substring(0, 10); 
-                        // Sisa karakter setelah indeks 11 adalah jam
-                        if(rawConfirm.length > 11) {
-                            timeStr = rawConfirm.substring(11);
-                        }
+                    // Coba format Strip "2026-02-18-19:30"
+                    else if (rawConfirm.includes("-") && rawConfirm.length > 10) {
+                        dateStr = rawConfirm.substring(0, 10);
+                        timeStr = rawConfirm.substring(11);
+                        fullTimestamp = rawConfirm;
+                    } else {
+                        dateStr = rawConfirm;
                         fullTimestamp = rawConfirm;
                     }
                 }
 
                 return {
-                    nopol: row["No. Polisi"] || "Tanpa Plat",
+                    nopol: row["No. Polisi"] || "Unknown",
                     tipe: row["Tipe Shipping"] || "General",
-                    dateKey: dateStr, // Kunci grouping
-                    timeDisplay: timeStr, // Tampilan jam
-                    fullSort: fullTimestamp // Kunci sorting
+                    dateKey: dateStr,
+                    timeDisplay: timeStr,
+                    sortKey: fullTimestamp
                 };
             });
 
-            // 2. Sorting Global (Tanggal Dulu, Baru Jam)
+            // B. Sorting Global (Tanggal -> Tipe -> Jam)
             processed.sort((a, b) => {
-                return a.fullSort.localeCompare(b.fullSort);
+                if (a.dateKey !== b.dateKey) return a.dateKey.localeCompare(b.dateKey);
+                if (a.tipe !== b.tipe) return a.tipe.localeCompare(b.tipe);
+                return a.sortKey.localeCompare(b.sortKey);
             });
 
-            // 3. Grouping Berdasarkan Tanggal Saja
+            // C. Grouping: Groups[Tanggal][Tipe] = [Array Cars]
             const groups = {};
             processed.forEach(item => {
-                if (!groups[item.dateKey]) groups[item.dateKey] = [];
-                groups[item.dateKey].push(item);
+                if (!groups[item.dateKey]) groups[item.dateKey] = {};
+                if (!groups[item.dateKey][item.tipe]) groups[item.dateKey][item.tipe] = [];
+                groups[item.dateKey][item.tipe].push(item);
             });
 
-            renderUI(groups);
-        }
-
-        function renderUI(groups) {
+            // D. Rendering
             resultArea.innerHTML = "";
-            const dates = Object.keys(groups).sort(); // Pastikan tanggal urut
+            const sortedDates = Object.keys(groups).sort();
 
-            dates.forEach(date => {
-                const cars = groups[date];
-                
-                // Container Per Tanggal
-                const section = document.createElement("div");
-                section.className = "date-section";
+            sortedDates.forEach(date => {
+                // 1. Buat Container Tanggal
+                const dateSection = document.createElement("div");
+                dateSection.className = "date-section";
 
-                // Header Tanggal
-                section.innerHTML = `
-                    <div class="date-header">
-                        <div class="date-pill">${date}</div>
-                        <div class="date-line"></div>
-                        <div style="color:var(--text-sec); font-weight:600;">${cars.length} Unit</div>
-                    </div>
-                `;
+                // Header Tanggal (Pill Hitam seperti Screenshot)
+                const dateHeader = document.createElement("div");
+                dateHeader.innerHTML = `<span class="date-header-pill">${date}</span>`;
+                dateSection.appendChild(dateHeader);
 
-                // Grid Kartu
-                const list = document.createElement("div");
-                list.className = "queue-list";
+                // Loop Setiap Tipe Shipping di Tanggal tersebut
+                const typeGroups = groups[date];
+                const sortedTypes = Object.keys(typeGroups).sort();
 
-                cars.forEach((car, index) => {
-                    const card = document.createElement("div");
-                    card.className = "card";
-                    
-                    // Nomor Urut (Reset per hari)
-                    const rank = index + 1;
+                sortedTypes.forEach(type => {
+                    const cars = typeGroups[type];
 
-                    card.innerHTML = `
-                        <div class="rank-circle">${rank}</div>
-                        <div class="helper-text">Antrean ke-${rank}</div>
-                        <div class="nopol">${car.nopol}</div>
-                        
-                        <div class="meta-info">
-                            <div class="badge-type">${car.tipe}</div>
-                            <div class="time-display">${clockIcon} ${car.timeDisplay}</div>
+                    // 2. Buat Container Shipping Group (Kotak Putih Terpisah)
+                    const shippingGroup = document.createElement("div");
+                    shippingGroup.className = "shipping-group";
+
+                    // Header Tipe (misal: "🚚 Tipe 4D")
+                    shippingGroup.innerHTML = `
+                        <div class="shipping-header">
+                            <div class="shipping-title">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 012-2v0a2 2 0 10-2 0v0z"></path></svg>
+                                Tipe ${type}
+                            </div>
+                            <div class="shipping-count">${cars.length} Unit</div>
                         </div>
                     `;
-                    list.appendChild(card);
+
+                    // Grid Kartu
+                    const grid = document.createElement("div");
+                    grid.className = "card-grid";
+
+                    cars.forEach((car, index) => {
+                        const card = document.createElement("div");
+                        card.className = "card";
+                        
+                        // LOGIKA PENTING: Rank di-reset per tipe shipping
+                        const rank = index + 1;
+
+                        card.innerHTML = `
+                            <div class="card-top">
+                                <span class="queue-label">Antrean ke-${rank}</span>
+                                <div class="rank-circle">${rank}</div>
+                            </div>
+                            <div class="nopol">${car.nopol}</div>
+                            <div class="card-footer">
+                                <div class="badge-type">${car.tipe}</div>
+                                <div class="time-text">${clockIcon} ${car.timeDisplay}</div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                    shippingGroup.appendChild(grid);
+                    dateSection.appendChild(shippingGroup);
                 });
 
-                section.appendChild(list);
-                resultArea.appendChild(section);
+                resultArea.appendChild(dateSection);
             });
         }
       });

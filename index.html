@@ -3,26 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Logistik Pro v2.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard Antrean Logistik v3.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
       :root {
-        --primary: #4f46e5;
-        --primary-dark: #4338ca;
-        --bg-body: #f8fafc;
-        --surface: #ffffff;
-        --text-main: #0f172a;
-        --text-sec: #64748b;
-        --border: #e2e8f0;
+        --primary: #2563eb;       /* Biru Royal */
+        --bg-body: #f1f5f9;       /* Abu Muda */
+        --surface: #ffffff;       /* Putih */
+        --text-main: #1e293b;     /* Hitam Slate */
+        --text-sec: #64748b;      /* Abu Slate */
+        --border: #e2e8f0;        /* Garis Halus */
         
-        /* Status Colors */
-        --success: #10b981; /* Hijau (Baru) */
-        --warning: #f59e0b; /* Kuning (Sedang) */
-        --danger: #ef4444;  /* Merah (Lama/Urgent) */
+        /* Warna Badge Tipe */
+        --bg-badge: #eff6ff; 
+        --text-badge: #2563eb;
         
-        --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       }
 
       * { box-sizing: border-box; }
@@ -31,120 +28,103 @@
         color: var(--text-main); margin: 0; padding: 20px;
       }
 
-      .container { max-width: 1280px; margin: 0 auto; }
+      .container { max-width: 1200px; margin: 0 auto; }
 
-      /* --- 1. TOP NAVBAR & STATS --- */
+      /* --- HEADER & CONTROLS --- */
       .top-bar {
-        background: var(--surface); padding: 1rem 1.5rem;
-        border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+        background: var(--surface); padding: 1.5rem;
+        border-radius: 16px; box-shadow: var(--shadow);
         display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
       }
 
-      .brand { display: flex; align-items: center; gap: 10px; }
-      .brand h1 { font-size: 1.25rem; margin: 0; font-weight: 700; color: var(--primary); }
-      .live-badge { 
-        background: #fee2e2; color: #ef4444; padding: 2px 8px; 
-        border-radius: 12px; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 4px;
-      }
-      .live-dot { width: 6px; height: 6px; background: #ef4444; border-radius: 50%; animation: pulse 1.5s infinite; }
+      .brand h1 { font-size: 1.5rem; margin: 0; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+      .brand p { margin: 0; color: var(--text-sec); font-size: 0.9rem; }
 
-      .search-box {
-        position: relative; flex-grow: 1; max-width: 400px;
-      }
-      .search-box input {
-        width: 100%; padding: 10px 10px 10px 36px; border-radius: 8px;
-        border: 1px solid var(--border); background: var(--bg-body);
-        font-size: 0.9rem; transition: 0.2s;
-      }
-      .search-box input:focus { outline: none; border-color: var(--primary); background: white; }
-      .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-sec); width: 16px; }
-
-      .actions { display: flex; gap: 10px; }
+      .controls { display: flex; gap: 10px; }
       .btn {
-        padding: 8px 16px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: 0.2s;
+        padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: 0.2s;
       }
-      .btn-primary { background: var(--primary); color: white; }
-      .btn-primary:hover { background: var(--primary-dark); }
-      .btn-outline { background: white; border: 1px solid var(--border); color: var(--text-sec); }
-      .btn-outline:hover { border-color: var(--text-sec); color: var(--text-main); }
+      .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+      .btn-primary:hover { transform: translateY(-2px); background: #1d4ed8; }
+      
+      .file-wrapper { position: relative; overflow: hidden; display: inline-block; }
+      .file-wrapper input { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+      .btn-outline { background: white; border: 1px solid var(--border); color: var(--text-main); }
+      .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
 
-      /* --- 2. STATS SUMMARY --- */
-      .stats-grid {
-        display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;
-      }
-      .stat-card {
-        background: white; padding: 1rem; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between;
-      }
-      .stat-label { font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px; }
-      .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
-      .stat-icon { width: 40px; height: 40px; border-radius: 8px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: var(--primary); }
-
-      /* --- 3. QUEUE LAYOUT --- */
-      .date-block { margin-bottom: 2.5rem; }
+      /* --- DATE GROUP --- */
+      .date-section { margin-bottom: 3rem; }
+      
       .date-header { 
-        display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; 
-        font-size: 1.1rem; font-weight: 700; color: var(--text-main);
-        padding-bottom: 0.5rem; border-bottom: 2px solid var(--border);
+        display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem;
+        position: sticky; top: 10px; z-index: 10; /* Sticky Header */
       }
       
-      .type-block { background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); margin-bottom: 1.5rem; }
-      .type-header { display: flex; justify-content: space-between; margin-bottom: 1rem; }
-      .type-title { font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+      .date-pill {
+        background: var(--text-main); color: white;
+        padding: 8px 16px; border-radius: 30px;
+        font-weight: 700; font-size: 1rem;
+        box-shadow: var(--shadow);
+      }
+      
+      .date-line { flex-grow: 1; height: 2px; background: var(--border); }
 
-      .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+      /* --- CARDS GRID --- */
+      .queue-list {
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+        gap: 1.25rem;
+      }
 
-      /* --- 4. ADVANCED CARD DESIGN --- */
       .card {
-        background: white; border: 1px solid var(--border); border-radius: 8px;
-        position: relative; overflow: hidden; transition: all 0.2s;
-        display: flex; flex-direction: column;
+        background: var(--surface); border-radius: 12px;
+        border: 1px solid var(--border);
+        padding: 1.25rem;
+        position: relative; overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex; flex-direction: column; gap: 8px;
       }
-      .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--primary); }
-      
-      /* Status Stripe di kiri kartu */
-      .card.status-new { border-left: 4px solid var(--success); }
-      .card.status-warn { border-left: 4px solid var(--warning); }
-      .card.status-urgent { border-left: 4px solid var(--danger); }
+      .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary); }
 
-      .card-body { padding: 1rem; flex-grow: 1; }
-      
-      .rank-badge {
+      /* Nomor Urut (Ranking) */
+      .rank-circle {
         position: absolute; top: 10px; right: 10px;
-        background: var(--text-main); color: white; width: 24px; height: 24px;
-        border-radius: 50%; font-size: 0.75rem; font-weight: 700;
+        width: 32px; height: 32px;
+        background: var(--primary); color: white;
+        border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.9rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       }
 
-      .plate-no { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+      .nopol { font-size: 1.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
       
-      /* Info Bar (Jam & Durasi) */
-      .info-row { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
-      .pill { 
-        font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: 600; display: flex; align-items: center; gap: 4px; 
+      .meta-info {
+        display: flex; align-items: center; gap: 10px; margin-top: 4px;
       }
-      .pill-time { background: #f1f5f9; color: var(--text-sec); }
-      .pill-duration { background: #fff7ed; color: var(--warning); border: 1px solid #fed7aa; }
-      .pill-duration.urgent { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
 
-      /* Action Buttons Footer */
-      .card-footer {
-        background: #f8fafc; border-top: 1px solid var(--border);
-        padding: 8px; display: flex; gap: 8px;
+      /* Badge Tipe Shipping */
+      .badge-type {
+        background: var(--bg-badge); color: var(--text-badge);
+        padding: 4px 10px; border-radius: 6px;
+        font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+        border: 1px solid #dbeafe;
       }
-      .btn-action {
-        flex: 1; padding: 6px; border: 1px solid var(--border); border-radius: 4px;
-        background: white; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s;
-      }
-      .btn-action:hover { background: var(--primary); color: white; border-color: var(--primary); }
-      .btn-done { color: var(--success); border-color: #bbf7d0; }
-      .btn-done:hover { background: var(--success); color: white; border-color: var(--success); }
 
-      /* Utilities */
-      .hidden { display: none !important; }
-      #fileInput { display: none; }
-      @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-      .empty-state { text-align: center; padding: 3rem; color: var(--text-sec); border: 2px dashed var(--border); border-radius: 12px; }
+      /* Waktu */
+      .time-display {
+        display: flex; align-items: center; gap: 6px;
+        color: var(--text-sec); font-size: 0.9rem; font-weight: 500;
+      }
+
+      .empty-state {
+        text-align: center; padding: 4rem; color: var(--text-sec);
+        border: 2px dashed var(--border); border-radius: 16px;
+        background: rgba(255,255,255,0.5);
+      }
+
+      .helper-text { font-size: 0.8rem; color: var(--text-sec); margin-top: 5px; }
 
     </style>
   </head>
@@ -154,246 +134,167 @@
       
       <div class="top-bar">
         <div class="brand">
-          <h1>Logistics Queue</h1>
-          <div class="live-badge"><div class="live-dot"></div> LIVE MONITOR</div>
+          <h1>Dashboard Antrean</h1>
+          <p>Sistem Manajemen Sortir Unit Masuk</p>
         </div>
-
-        <div class="search-box">
-          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-          <input type="text" id="searchInput" placeholder="Cari Nopol (Contoh: B 9336)...">
-        </div>
-
-        <div class="actions">
-          <label class="btn btn-outline">
-            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-            Upload Excel
+        
+        <div class="controls">
+          <div class="file-wrapper">
+            <button class="btn btn-outline">📂 Pilih File Excel</button>
             <input type="file" id="fileInput" accept=".csv, .xlsx" />
-          </label>
-          <button id="processButton" class="btn btn-primary">Refresh Data</button>
-        </div>
-      </div>
-
-      <div id="statsArea" class="stats-grid hidden">
-        <div class="stat-card">
-          <div><div class="stat-label">Total Antrean</div><div class="stat-value" id="valTotal">0</div></div>
-          <div class="stat-icon"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg></div>
-        </div>
-        <div class="stat-card">
-          <div><div class="stat-label">Total Kategori</div><div class="stat-value" id="valGroups">0</div></div>
-          <div class="stat-icon"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg></div>
-        </div>
-        <div class="stat-card" style="border-color: var(--danger);">
-          <div><div class="stat-label" style="color:var(--danger)">Antrean > 3 Jam</div><div class="stat-value" style="color:var(--danger)" id="valUrgent">0</div></div>
-          <div class="stat-icon" style="color:var(--danger); background:#fef2f2;"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+          </div>
+          <button id="processButton" class="btn btn-primary">Proses Antrean</button>
         </div>
       </div>
 
       <div id="resultArea">
         <div class="empty-state">
-           <svg style="width:48px;height:48px;margin-bottom:1rem;color:var(--text-sec)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-           <p>Data belum dimuat. Silakan Upload Excel.</p>
+           <h3>Belum ada data</h3>
+           <p>Silakan upload file Excel (.xlsx) yang berisi kolom: <br><b>"No. Polisi"</b>, <b>"Tipe Shipping"</b>, dan <b>"Confirm In"</b>.</p>
         </div>
       </div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
     <script>
       let rawData = null;
-      let globalProcessedData = []; // Simpan data di global untuk fitur Search
 
-      // --- LOGIC HELPER: HITUNG DURASI (FITUR 2) ---
-      function calculateDuration(dateStr, timeStr) {
-        // Gabung string menjadi objek Date
-        // Asumsi format input bisa "YYYY-MM-DD" dan "HH:MM"
-        // Jika format kacau, return null
-        try {
-            const entryString = `${dateStr}T${timeStr}:00`;
-            const entryDate = new Date(entryString);
-            const now = new Date(); // Waktu sekarang
-            
-            if (isNaN(entryDate.getTime())) return null; // Invalid date
-
-            const diffMs = now - entryDate;
-            if (diffMs < 0) return { hours: 0, text: "Baru Saja", level: "new" }; // Future date
-
-            const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
-            const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-            // Tentukan Level Urgensi
-            let level = "new";
-            if (diffHrs >= 1 && diffHrs < 3) level = "warn";
-            if (diffHrs >= 3) level = "urgent";
-
-            return {
-                hours: diffHrs,
-                text: `${diffHrs}j ${diffMins}m`,
-                level: level
-            };
-
-        } catch (e) {
-            return null;
-        }
-      }
+      // Icon SVG
+      const clockIcon = `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
 
       document.addEventListener("DOMContentLoaded", () => {
         const fileInput = document.getElementById("fileInput");
         const processButton = document.getElementById("processButton");
-        const searchInput = document.getElementById("searchInput");
         const resultArea = document.getElementById("resultArea");
-        const statsArea = document.getElementById("statsArea");
 
-        // 1. Upload File
+        // UI Update saat file dipilih
         fileInput.addEventListener("change", (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: "array" });
-            rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-            
-            // Auto process saat upload selesai
-            processData();
-          };
-          reader.readAsArrayBuffer(file);
+           if(e.target.files.length > 0) {
+              document.querySelector('.btn-outline').innerText = "✅ " + e.target.files[0].name;
+              document.querySelector('.btn-outline').style.borderColor = "var(--primary)";
+              document.querySelector('.btn-outline').style.color = "var(--primary)";
+           }
         });
 
-        // 2. Tombol Manual
         processButton.addEventListener("click", () => {
-            if(!rawData) alert("Upload file dulu!");
-            else processData();
+            const file = fileInput.files[0];
+            if (!file) { alert("Pilih file dulu!"); return; }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
+                rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                processQueueData(rawData);
+            };
+            reader.readAsArrayBuffer(file);
         });
 
-        // 3. FITUR SEARCH REAL-TIME
-        searchInput.addEventListener("input", (e) => {
-            const keyword = e.target.value.toLowerCase();
-            const allCards = document.querySelectorAll(".card");
-            
-            allCards.forEach(card => {
-                const plate = card.getAttribute("data-plate").toLowerCase();
-                if(plate.includes(keyword)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        });
+        function processQueueData(data) {
+            if (!data || data.length === 0) return;
 
-        function processData() {
-            if (!rawData) return;
-            
-            // Reset UI
-            resultArea.innerHTML = "";
-            statsArea.classList.remove("hidden");
+            // 1. Parsing & Normalisasi Data
+            const processed = data.map(row => {
+                const rawConfirm = row["Confirm In"];
+                let dateStr = "Unknown Date";
+                let timeStr = "00:00";
+                let fullTimestamp = ""; // Untuk sorting presisi
 
-            // Cleaning & Parsing Data
-            globalProcessedData = rawData.map(row => {
-                const rawConfirm = row["Confirm In"] || "";
-                let date = "Unknown", time = "00:00";
-
-                // Basic parser
+                // Logika Parsing Waktu yang Kuat
                 if (typeof rawConfirm === 'string') {
-                    const parts = rawConfirm.trim().split(" ");
-                    if (parts.length > 1) { date = parts[0]; time = parts.slice(1).join(" "); }
-                    else { date = rawConfirm; }
+                    // Coba pisahkan berdasarkan Spasi (Format: YYYY-MM-DD HH:MM:SS)
+                    let parts = rawConfirm.trim().split(" ");
+                    if (parts.length >= 2) {
+                        dateStr = parts[0]; // Ambil Tanggal Saja
+                        timeStr = parts[1]; // Ambil Jam Saja
+                        fullTimestamp = rawConfirm;
+                    } 
+                    // Coba pisahkan berdasarkan Strip (Kasus gambar user: 2026-02-18-19:36:38)
+                    else if (rawConfirm.includes("-")) {
+                        // Asumsi format kacau user: YYYY-MM-DD-HH:MM:SS
+                        // Kita ambil 10 karakter pertama sebagai tanggal
+                        dateStr = rawConfirm.substring(0, 10); 
+                        // Sisa karakter setelah indeks 11 adalah jam
+                        if(rawConfirm.length > 11) {
+                            timeStr = rawConfirm.substring(11);
+                        }
+                        fullTimestamp = rawConfirm;
+                    }
                 }
-
-                // Hitung Durasi
-                const durationInfo = calculateDuration(date, time);
 
                 return {
-                    nopol: row["No. Polisi"] || "Unknown",
-                    tipe: row["Tipe Shipping"] || "Lainnya",
-                    tanggal: date,
-                    jam: time,
-                    durasi: durationInfo
+                    nopol: row["No. Polisi"] || "Tanpa Plat",
+                    tipe: row["Tipe Shipping"] || "General",
+                    dateKey: dateStr, // Kunci grouping
+                    timeDisplay: timeStr, // Tampilan jam
+                    fullSort: fullTimestamp // Kunci sorting
                 };
             });
 
-            // Sorting: Tanggal Asc (Lama diatas) -> Tipe -> Jam Asc
-            globalProcessedData.sort((a, b) => {
-                if (a.tanggal !== b.tanggal) return a.tanggal.localeCompare(b.tanggal);
-                if (a.tipe !== b.tipe) return a.tipe.localeCompare(b.tipe);
-                return a.jam.localeCompare(b.jam);
+            // 2. Sorting Global (Tanggal Dulu, Baru Jam)
+            processed.sort((a, b) => {
+                return a.fullSort.localeCompare(b.fullSort);
             });
 
-            renderDashboard(globalProcessedData);
+            // 3. Grouping Berdasarkan Tanggal Saja
+            const groups = {};
+            processed.forEach(item => {
+                if (!groups[item.dateKey]) groups[item.dateKey] = [];
+                groups[item.dateKey].push(item);
+            });
+
+            renderUI(groups);
         }
 
-        function renderDashboard(data) {
-            if (data.length === 0) { resultArea.innerHTML = "<p>Data kosong</p>"; return; }
+        function renderUI(groups) {
+            resultArea.innerHTML = "";
+            const dates = Object.keys(groups).sort(); // Pastikan tanggal urut
 
-            // Grouping Logic
-            const groups = {};
-            let countUrgent = 0;
-
-            data.forEach(item => {
-                if (!groups[item.tanggal]) groups[item.tanggal] = {};
-                if (!groups[item.tanggal][item.tipe]) groups[item.tanggal][item.tipe] = [];
-                groups[item.tanggal][item.tipe].push(item);
-                if (item.durasi && item.durasi.hours >= 3) countUrgent++;
-            });
-
-            // Update Stats Summary
-            document.getElementById("valTotal").innerText = data.length;
-            document.getElementById("valGroups").innerText = Object.keys(groups).length; // Total Hari (bisa disesuaikan jadi total Tipe)
-            document.getElementById("valUrgent").innerText = countUrgent;
-
-            // Render Layout
-            for (const [date, typeGroups] of Object.entries(groups)) {
+            dates.forEach(date => {
+                const cars = groups[date];
                 
-                const dateBlock = document.createElement("div");
-                dateBlock.className = "date-block";
-                dateBlock.innerHTML = `<div class="date-header">📅 ${date}</div>`;
+                // Container Per Tanggal
+                const section = document.createElement("div");
+                section.className = "date-section";
 
-                for (const [type, cars] of Object.entries(typeGroups)) {
+                // Header Tanggal
+                section.innerHTML = `
+                    <div class="date-header">
+                        <div class="date-pill">${date}</div>
+                        <div class="date-line"></div>
+                        <div style="color:var(--text-sec); font-weight:600;">${cars.length} Unit</div>
+                    </div>
+                `;
+
+                // Grid Kartu
+                const list = document.createElement("div");
+                list.className = "queue-list";
+
+                cars.forEach((car, index) => {
+                    const card = document.createElement("div");
+                    card.className = "card";
                     
-                    const typeBlock = document.createElement("div");
-                    typeBlock.className = "type-block";
-                    typeBlock.innerHTML = `
-                        <div class="type-header">
-                            <div class="type-title">🚛 ${type}</div>
-                            <small>${cars.length} Unit</small>
+                    // Nomor Urut (Reset per hari)
+                    const rank = index + 1;
+
+                    card.innerHTML = `
+                        <div class="rank-circle">${rank}</div>
+                        <div class="helper-text">Antrean ke-${rank}</div>
+                        <div class="nopol">${car.nopol}</div>
+                        
+                        <div class="meta-info">
+                            <div class="badge-type">${car.tipe}</div>
+                            <div class="time-display">${clockIcon} ${car.timeDisplay}</div>
                         </div>
                     `;
+                    list.appendChild(card);
+                });
 
-                    const grid = document.createElement("div");
-                    grid.className = "grid-cards";
-
-                    cars.forEach((car, idx) => {
-                        const card = document.createElement("div");
-                        
-                        // Set class warna berdasarkan durasi menunggu
-                        const statusClass = car.durasi ? `status-${car.durasi.level}` : 'status-new';
-                        const durationText = car.durasi ? `⏳ ${car.durasi.text}` : '';
-                        const urgencyClass = (car.durasi && car.durasi.level === 'urgent') ? 'urgent' : '';
-
-                        card.className = `card ${statusClass}`;
-                        card.setAttribute("data-plate", car.nopol); // Untuk fitur search
-
-                        card.innerHTML = `
-                            <div class="card-body">
-                                <div class="rank-badge">${idx + 1}</div>
-                                <div class="plate-no">${car.nopol}</div>
-                                <div class="info-row">
-                                    <div class="pill pill-time">🕒 ${car.jam}</div>
-                                    ${durationText ? `<div class="pill pill-duration ${urgencyClass}">${durationText}</div>` : ''}
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn-action" onclick="alert('Memanggil driver ${car.nopol}...')">📢 Panggil</button>
-                                <button class="btn-action btn-done" onclick="this.closest('.card').style.opacity='0.5'">✅ Muat</button>
-                            </div>
-                        `;
-                        grid.appendChild(card);
-                    });
-
-                    typeBlock.appendChild(grid);
-                    dateBlock.appendChild(typeBlock);
-                }
-                resultArea.appendChild(dateBlock);
-            }
+                section.appendChild(list);
+                resultArea.appendChild(section);
+            });
         }
       });
     </script>
